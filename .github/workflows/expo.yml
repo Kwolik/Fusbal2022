@@ -26,6 +26,6 @@ jobs:
       - name: 🚀 Build app Android
         run: expo build:android
 
-      - name: 🚀 Build app Ios
+      - name: 🚀 Build app IOS
         run: expo build:ios
         
