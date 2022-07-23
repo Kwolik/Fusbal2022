@@ -24,8 +24,8 @@ jobs:
         run: npm install
 
       - name: 🚀 Build app Android
-        run: expo build:android
+        run: expo build:android --non-interactive
 
       - name: 🚀 Build app IOS
-        run: expo build:ios
+        run: expo build:ios --non-interactive
         
