@@ -26,8 +26,9 @@ jobs:
       - name: 📦 Update
         run: expo install expo-updates
 
-      - name: 🚀 Build app
-        run: eas build --non-interactive
       - name: Platform
         run: eas build --platform all
+
+      - name: 🚀 Build app
+        run: eas build --non-interactive
         
