@@ -23,13 +23,13 @@ jobs:
           cache: expo
 
       - name: 📦 Install dependencies
-        run: expo install --frozen-lockfile --check-files
+        run: expo install 
 
       - name: ✅ Lint code
         run: expo lint --max-warnings=0
 
       - name: 🧪 Test code
-        run: expo test
+        run: expo start
 
       - name: 👷 Build code
         run: expo clean && expo build
@@ -50,4 +50,3 @@ jobs:
         with:
           name: build
           path: build/
-        
