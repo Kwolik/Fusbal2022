@@ -26,9 +26,6 @@ jobs:
       - name: 📦 Update
         run: expo install expo-updates
 
-      - name: 🚀 Build app Android
-        run: expo build:android --non-interactive
-
-      - name: 🚀 Build app IOS
-        run: expo build:ios --non-interactive
+      - name: 🚀 Build app
+        run: eas build --non-interactive
         
