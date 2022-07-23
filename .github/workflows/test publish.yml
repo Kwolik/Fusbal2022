@@ -1,5 +1,4 @@
 name: Expo Publish on Production
-
 on:
   push:
     branches: [ main ]
