@@ -23,4 +23,3 @@ jobs:
           expo-cache: true
       - run: npm install
       - run: expo publish --release-channel production
-  
