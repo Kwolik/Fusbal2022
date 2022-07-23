@@ -20,5 +20,12 @@
   "devDependencies": {
     "@babel/core": "^7.12.9"
   },
-  "private": true
+  "private": true,
+  "expo": {
+    "name": "Fusbal2022",
+    "android": {
+      "package": "com.web.app",
+      "versionCode": 1
+    }
+  }
 }
