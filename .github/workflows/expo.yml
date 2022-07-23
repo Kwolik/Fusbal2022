@@ -23,5 +23,9 @@ jobs:
       - name: 📦 Install dependencies
         run: npm install
 
-      - name: 🚀 Build app
-        run: eas build --platform all
+      - name: 🚀 Build app Android
+        run: expo build:android
+
+      - name: 🚀 Build app Ios
+        run: expo build:ios
+        
