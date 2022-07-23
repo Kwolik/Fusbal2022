@@ -20,23 +20,23 @@ jobs:
         uses: actions/setup-node@v3
 
       - name: 📦 Install dependencies
-        run: expo install 
+        run: npm install 
 
       - name: ✅ Lint code
-        run: expo lint --max-warnings=0
+        run: npm lint --max-warnings=0
 
       - name: 🧪 Test code
-        run: expo start
+        run: npm start
 
       - name: 👷 Build code
-        run: expo clean && expo build
+        run: npm clean && npm build
 
       - name: 🕵️ Validate build
         id: diff
         run: |
           if [ "$(git diff --ignore-space-at-eol build/ | wc -l)" -gt "0" ]; then
             echo "⚠️ Build is outdated"
-            echo "    > run 'expo clean', 'expo build', and commit changes"
+            echo "    > run 'npm clean', 'npm build', and commit changes"
             git diff
             exit 1
           fi
