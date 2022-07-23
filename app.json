@@ -19,10 +19,15 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.web.app"
+      "bundleIdentifier": "com.fusbal2022.app",
+      "config":{
+        "googleSignIn":{
+          "reservedClientId": "com.googleusercontent.apps.594410513964-jh33b0j7u95rctu9cm0nfrsi6asad1uo"
+        }
+      }
     },
     "android": {
-      "package": "com.web.app",
+      "package": "com.Fusbal2022.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
