@@ -27,5 +27,6 @@ jobs:
         run: expo install expo-updates
 
       - name: 🚀 Build app
-        run: eas build --non-interactive --platform:all
+        run: eas build --non-interactive
+        run: eas build --platform:all
         
