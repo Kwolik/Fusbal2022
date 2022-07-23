@@ -1,4 +1,4 @@
-name: Expo
+name: Expo Publish on Production
 
 on:
   push:
@@ -7,27 +7,19 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  publish:
+    name: Install and publish
     runs-on: ubuntu-latest
     steps:
-      - name: 🏗 Setup repo
-        uses: actions/checkout@v3
-
-      - name: 🏗 Setup Node
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 16.x
-          cache: npm
-
-      - name: 🏗 Setup Expo and EAS
-        uses: expo/expo-github-action@v7
+      - uses: expo/expo-github-action@v5
         with:
-          expo-version: latest
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
-
-      - name: 📦 Install dependencies
-        run: npm install
-
-      - name: 🚀 Build app
-        run: eas build --non-interactive --platform android
+          expo-version: 4.x
+          expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
+          expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
+          expo-cache: true
+      - run: npm
+      - run: expo publish --release-channel production
