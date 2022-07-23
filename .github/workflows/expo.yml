@@ -28,5 +28,6 @@ jobs:
 
       - name: 🚀 Build app
         run: eas build --non-interactive
+      - name: Platform
         run: eas build --platform all
         
