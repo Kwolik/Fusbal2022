@@ -23,6 +23,9 @@ jobs:
       - name: 📦 Install dependencies
         run: npm install
 
+      - name: 📦 Update
+        run: expo install expo-updates
+
       - name: 🚀 Build app Android
         run: expo build:android --non-interactive
 
