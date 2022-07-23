@@ -8,24 +8,46 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        node: [16.x]
     runs-on: ubuntu-latest
     steps:
-      - name: Setup repo
-        uses: actions/checkout@v3
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v2
 
-      - name: Setup Expo and EAS
-        uses: expo/expo-github-action@v7
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v2
         with:
-          expo-version: latest
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
+          node-version: ${{ matrix.node }}
+          cache: yarn
 
       - name: 📦 Install dependencies
-        run: npm install
+        run: yarn install --frozen-lockfile --check-files
 
-      - name: 📦 Update
-        run: expo install expo-updates
+      - name: ✅ Lint code
+        run: yarn lint --max-warnings=0
 
-      - name: 🚀 Build app
-        run: eas build --non-interactive --platform ios
+      - name: 🧪 Test code
+        run: yarn test
+
+      - name: 👷 Build code
+        run: yarn clean && yarn build
+
+      - name: 🕵️ Validate build
+        id: diff
+        run: |
+          if [ "$(git diff --ignore-space-at-eol build/ | wc -l)" -gt "0" ]; then
+            echo "⚠️ Build is outdated"
+            echo "    > run 'yarn clean', 'yarn build', and commit changes"
+            git diff
+            exit 1
+          fi
+      
+      - name: 🗂 Upload build
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() && steps.diff.conclusion == 'failure' }}
+        with:
+          name: build
+          path: build/
         
