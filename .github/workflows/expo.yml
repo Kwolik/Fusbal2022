@@ -25,9 +25,6 @@ jobs:
       - name: 🧪 Test code
         run: npm start
 
-      - name: 👷 Build code
-        run: npm clean && npm build
-
       - name: 🕵️ Validate build
         id: diff
         run: |
