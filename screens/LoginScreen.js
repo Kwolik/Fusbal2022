@@ -5,16 +5,25 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
-  Platform,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { auth } from "../firebase.js";
 import { useNavigation } from "@react-navigation/core";
-import * as GoogleSignIn from "expo-google-sign-in";
+import * as Google from "expo-auth-session/providers/google";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithCredential,
+} from "firebase/auth";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+    clientId:
+      "594410513964-dud3rqgv8sbak5rpcdd0lvcve9ci54u3.apps.googleusercontent.com",
+  });
 
   const navigation = useNavigation();
 
@@ -49,32 +58,14 @@ const LoginScreen = () => {
   };
 
   useEffect(() => {
-    initAsync();
-  });
-  const androidClientId =
-    "594410513964-teibopsk70st5fmnsje2embcm2ogu5uq.apps.googleusercontent.com";
-  const iosClientId =
-    "594410513964-jh33b0j7u95rctu9cm0nfrsi6asad1uo.apps.googleusercontent.com";
+    if (response?.type === "success") {
+      const { id_token } = response.params;
 
-  const initAsync = () => {
-    try {
-      GoogleSignIn.initAsync({
-        clientId: Platform.OS === "android" ? androidClientId : iosClientId,
-      });
-    } catch ({ message }) {
-      console.log("Error: ", message);
+      const auth = getAuth();
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential);
     }
-  };
-
-  const handleGoogleSignIn = () => {
-    try{
-        const{type, user} = GoogleSignIn.GoogleSignIn
-        if(type == 'success')
-        {
-            console.log('User ', user)
-        }
-    }catch {}
-  }
+  }, [response]);
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -104,7 +95,7 @@ const LoginScreen = () => {
         >
           <Text style={styles.buttonOutLineText}>Register</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleGoogleSignIn} style={styles.button}>
+        <TouchableOpacity onPress={() => promptAsync()} style={styles.button}>
           <Text style={styles.buttonText}>Google</Text>
         </TouchableOpacity>
       </View>

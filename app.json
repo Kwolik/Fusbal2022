@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "scheme": "com.fusbal2022.app",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -20,6 +21,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.fusbal2022.app",
+      "googleServicesFile": "./ios.plist",
       "config":{
         "googleSignIn":{
           "reservedClientId": "com.googleusercontent.apps.594410513964-jh33b0j7u95rctu9cm0nfrsi6asad1uo"
@@ -28,6 +30,7 @@
     },
     "android": {
       "package": "com.Fusbal2022.app",
+      "googleServicesFile": "./android.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
