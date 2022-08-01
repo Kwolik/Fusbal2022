@@ -10,9 +10,11 @@ import React, { useEffect, useState } from "react";
 import { auth } from "../firebase.js";
 import { useNavigation } from "@react-navigation/core";
 import * as Google from "expo-auth-session/providers/google";
+import * as Facebook from "expo-auth-session/providers/facebook";
 import {
   getAuth,
   GoogleAuthProvider,
+  FacebookAuthProvider,
   signInWithCredential,
 } from "firebase/auth";
 
@@ -23,6 +25,10 @@ const LoginScreen = () => {
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId:
       "594410513964-dud3rqgv8sbak5rpcdd0lvcve9ci54u3.apps.googleusercontent.com",
+  });
+
+  const [request1, response1, promptAsync1] = Facebook.useAuthRequest({
+    clientId: "5113450932086183",
   });
 
   const navigation = useNavigation();
@@ -59,13 +65,22 @@ const LoginScreen = () => {
 
   useEffect(() => {
     if (response?.type === "success") {
+      console.log(response);
       const { id_token } = response.params;
 
       const auth = getAuth();
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential);
     }
-  }, [response]);
+
+    if (response1?.type === "success") {
+      const auth = getAuth();
+      const credential = FacebookAuthProvider.credential(
+        response1.authentication.accessToken
+      );
+      signInWithCredential(auth, credential);
+    }
+  }, [response, response1]);
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -97,6 +112,12 @@ const LoginScreen = () => {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => promptAsync()} style={styles.button}>
           <Text style={styles.buttonText}>Google</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => promptAsync1()}
+          style={[styles.button, styles.buttonOutline]}
+        >
+          <Text style={styles.buttonOutLineText}>Facebook</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
