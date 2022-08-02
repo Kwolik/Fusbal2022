@@ -2,6 +2,9 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+import { getReactNativePersistence } from "firebase/auth/react-native"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { initializeAuth } from "firebase/auth"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -21,6 +24,10 @@ const firebaseConfig = {
 let app;
 if (firebase.apps.length === 0) {
   app = firebase.initializeApp(firebaseConfig);
+  //To dodałem by funkcja onAuthStateChanged działa i zapamiętywano użytkownika
+  initializeAuth(app, {
+    persistence: getReactNativePersistence(AsyncStorage)
+  });
 } else {
   app = firebase.app();
 }

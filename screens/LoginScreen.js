@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { auth } from "../firebase.js";
-import { useNavigation } from "@react-navigation/core";
 import * as Google from "expo-auth-session/providers/google";
 import * as Facebook from "expo-auth-session/providers/facebook";
 import {
@@ -30,18 +29,6 @@ const LoginScreen = () => {
   const [request1, response1, promptAsync1] = Facebook.useAuthRequest({
     clientId: "5113450932086183",
   });
-
-  const navigation = useNavigation();
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        navigation.replace("Home");
-      }
-    });
-
-    return unsubscribe;
-  }, []);
 
   const handleSignUp = () => {
     auth
@@ -65,7 +52,6 @@ const LoginScreen = () => {
 
   useEffect(() => {
     if (response?.type === "success") {
-      console.log(response);
       const { id_token } = response.params;
 
       const auth = getAuth();
