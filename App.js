@@ -3,9 +3,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./screens/LoginScreen";
 import HomeScreen from "./screens/HomeScreen";
-import { auth } from "./firebase";
+import { auth } from "./components/firebase";
 import * as SplashScreen from "expo-splash-screen";
-import mainContext from "./mainContext";
+import mainContext from "./components/mainContext";
 
 const Stack = createNativeStackNavigator();
 SplashScreen.preventAutoHideAsync();

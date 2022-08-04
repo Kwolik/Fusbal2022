@@ -7,7 +7,7 @@ import {
   Text,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { auth } from "../firebase.js";
+import { auth } from "../components/firebase.js";
 import * as Google from "expo-auth-session/providers/google";
 import * as Facebook from "expo-auth-session/providers/facebook";
 import {

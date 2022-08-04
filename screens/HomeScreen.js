@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useContext } from "react";
-import { auth } from "../firebase";
-import mainContext from "../mainContext";
+import { auth } from "../components/firebase";
+import mainContext from "../components/mainContext";
 
 const HomeScreen = () => {
   const { signOutUser } = useContext(mainContext);
