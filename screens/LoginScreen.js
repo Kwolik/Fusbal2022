@@ -16,10 +16,12 @@ import {
   FacebookAuthProvider,
   signInWithCredential,
 } from "firebase/auth";
+import FragmentLoading from "../components/fragmentLoading.js";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId:
@@ -31,6 +33,7 @@ const LoginScreen = () => {
   });
 
   const handleSignUp = () => {
+    setLoading(true);
     auth
       .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
@@ -41,6 +44,7 @@ const LoginScreen = () => {
   };
 
   const handleLogin = () => {
+    setLoading(true);
     auth
       .signInWithEmailAndPassword(email, password)
       .then((userCredentials) => {
@@ -52,6 +56,7 @@ const LoginScreen = () => {
 
   useEffect(() => {
     if (response?.type === "success") {
+      setLoading(true);
       const { id_token } = response.params;
 
       const auth = getAuth();
@@ -60,6 +65,7 @@ const LoginScreen = () => {
     }
 
     if (response1?.type === "success") {
+      setLoading(true);
       const auth = getAuth();
       const credential = FacebookAuthProvider.credential(
         response1.authentication.accessToken
@@ -85,7 +91,6 @@ const LoginScreen = () => {
           style={styles.input}
         />
       </View>
-
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleLogin} style={styles.button}>
           <Text style={styles.buttonText}>Login</Text>
@@ -106,6 +111,7 @@ const LoginScreen = () => {
           <Text style={styles.buttonOutLineText}>Facebook</Text>
         </TouchableOpacity>
       </View>
+      {loading && <FragmentLoading />}
     </KeyboardAvoidingView>
   );
 };
