@@ -1,15 +1,15 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { auth } from "../firebase";
+import mainContext from "../mainContext";
 
 const HomeScreen = () => {
-  const handleSignUp = () => {
-    auth.signOut();
-  };
+  const { signOutUser } = useContext(mainContext);
+
   return (
     <View style={styles.container}>
       <Text>Email: {auth.currentUser?.email}</Text>
-      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+      <TouchableOpacity style={styles.button} onPress={() => signOutUser()}>
         <Text style={styles.buttonText}>Sign out</Text>
       </TouchableOpacity>
     </View>
