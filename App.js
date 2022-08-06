@@ -3,9 +3,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./screens/LoginScreen";
 import HomeScreen from "./screens/HomeScreen";
-import { auth } from "./components/firebase";
+import { auth, db } from "./components/firebase";
 import * as SplashScreen from "expo-splash-screen";
 import mainContext from "./components/mainContext";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 const Stack = createNativeStackNavigator();
 SplashScreen.preventAutoHideAsync();
@@ -19,6 +20,22 @@ export default function App() {
       setTimeout(() => {
         SplashScreen.hideAsync();
       }, 800);
+      if (user) {
+        getDoc(doc(db, "users", user.uid)).then((docSnap) => {
+          if (docSnap.exists()) {
+            console.log(user);
+            console.log("Document data:", docSnap.data());
+          } else {
+            setDoc(doc(db, "users", user.uid), {
+              id: user.uid,
+              name: user.displayName,
+              nick: "",
+              email: user.email,
+              photo: user.photoURL,
+            });
+          }
+        });
+      }
     });
 
     return unsubscribe;
