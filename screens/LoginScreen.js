@@ -40,7 +40,9 @@ const LoginScreen = () => {
         const user = userCredentials.user;
         console.log("Register in with: ", user.email);
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {
+        alert(error.message), setLoading(false);
+      });
   };
 
   const handleLogin = () => {
@@ -51,7 +53,9 @@ const LoginScreen = () => {
         const user = userCredentials.user;
         console.log("Logged in with: ", user.email);
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {
+        alert(error.message), setLoading(false);
+      });
   };
 
   useEffect(() => {
