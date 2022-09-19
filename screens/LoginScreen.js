@@ -1,12 +1,13 @@
 import {
-  StyleSheet,
   View,
   KeyboardAvoidingView,
-  TextInput,
   TouchableOpacity,
   Text,
+  Image,
+  ImageBackground,
 } from "react-native";
 import React, { useEffect, useState } from "react";
+import styles from "./Login.styles";
 import { auth } from "../components/firebase.js";
 import * as Google from "expo-auth-session/providers/google";
 import * as Facebook from "expo-auth-session/providers/facebook";
@@ -17,11 +18,14 @@ import {
   signInWithCredential,
 } from "firebase/auth";
 import FragmentLoading from "../components/fragmentLoading.js";
+import photo from "../assets/backgroundlogin.png";
+import { TextInput } from "react-native-paper";
 
-const LoginScreen = () => {
+export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [visibility, setVisibility] = useState(true);
 
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId:
@@ -31,19 +35,6 @@ const LoginScreen = () => {
   const [request1, response1, promptAsync1] = Facebook.useAuthRequest({
     clientId: "5113450932086183",
   });
-
-  const handleSignUp = () => {
-    setLoading(true);
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log("Register in with: ", user.email);
-      })
-      .catch((error) => {
-        alert(error.message), setLoading(false);
-      });
-  };
 
   const handleLogin = () => {
     setLoading(true);
@@ -79,92 +70,70 @@ const LoginScreen = () => {
   }, [response, response1]);
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          secureTextEntry
-          style={styles.input}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleLogin} style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleSignUp}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutLineText}>Register</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => promptAsync()} style={styles.button}>
-          <Text style={styles.buttonText}>Google</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => promptAsync1()}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutLineText}>Facebook</Text>
-        </TouchableOpacity>
-      </View>
-      {loading && <FragmentLoading />}
-    </KeyboardAvoidingView>
+    <View style={styles.container}>
+      <ImageBackground source={photo} style={styles.photo}>
+        {/* <KeyboardAvoidingView style={styles.container} behavior="padding"> */}
+        <View style={styles.viewText}>
+          <Text style={styles.text}>Witaj ponownie!</Text>
+          <Text style={styles.text}>Zaloguj się</Text>
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            mode="outlined"
+            label="Adres e-mail"
+            placeholder="twojadres@gmail.com"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            style={styles.input}
+            outlineColor="rgba(0, 0, 0, 0.23)"
+          />
+          <TextInput
+            mode="outlined"
+            label="Hasło"
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+            style={styles.input}
+            secureTextEntry={visibility}
+            right={
+              <TextInput.Icon
+                icon={visibility ? "eye" : "eye-off"}
+                style={{ top: 4 }}
+                onPress={() => {
+                  setVisibility(!visibility);
+                }}
+              />
+            }
+            outlineColor="rgba(0, 0, 0, 0.23)"
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={handleLogin} style={styles.button}>
+            <Text style={styles.buttonText}>Zaloguj się</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => promptAsync1()}
+            style={[styles.buttonFacebook]}
+          >
+            <Image
+              source={require("../assets/facebooklogo.png")}
+              style={styles.logo}
+            />
+            <Text style={styles.buttonFacebookText}>Zaloguj z Facebook</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => promptAsync()}
+            style={styles.buttonGoogle}
+          >
+            <Image
+              source={require("../assets/googlelogo.png")}
+              style={styles.logo}
+            />
+            <Text style={styles.buttonGoogleText}>Zaloguj z Google</Text>
+          </TouchableOpacity>
+        </View>
+        {loading && <FragmentLoading />}
+        {/* </KeyboardAvoidingView> */}
+      </ImageBackground>
+    </View>
   );
-};
-
-export default LoginScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  inputContainer: {
-    width: "80%",
-  },
-  input: {
-    backgroundColor: "white",
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 5,
-  },
-  buttonContainer: {
-    width: "60%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 40,
-  },
-  button: {
-    backgroundColor: "#0782F9",
-    width: "100%",
-    padding: 15,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  buttonOutline: {
-    backgroundColor: "white",
-    marginTop: 5,
-    borderColor: "#0782F9",
-    borderWidth: 2,
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 16,
-  },
-  buttonOutLineText: {
-    color: "#0782F9",
-    fontWeight: "700",
-    fontSize: 16,
-  },
-});
+}
