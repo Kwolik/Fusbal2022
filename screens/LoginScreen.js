@@ -21,7 +21,7 @@ import FragmentLoading from "../components/fragmentLoading.js";
 import photo from "../assets/backgroundlogin.png";
 import { TextInput } from "react-native-paper";
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -71,7 +71,7 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={photo} style={styles.photo}>
+      <ImageBackground source={photo} style={styles.photo} resizeMode="contain">
         {/* <KeyboardAvoidingView style={styles.container} behavior="padding"> */}
         <View style={styles.viewText}>
           <Text style={styles.text}>Witaj ponownie!</Text>
@@ -115,7 +115,7 @@ export default function LoginScreen() {
             style={[styles.buttonFacebook]}
           >
             <Image
-              source={require("../assets/facebooklogo.png")}
+              source={require("../assets/logo/facebooklogo.png")}
               style={styles.logo}
             />
             <Text style={styles.buttonFacebookText}>Zaloguj z Facebook</Text>
@@ -125,10 +125,13 @@ export default function LoginScreen() {
             style={styles.buttonGoogle}
           >
             <Image
-              source={require("../assets/googlelogo.png")}
+              source={require("../assets/logo/googlelogo.png")}
               style={styles.logo}
             />
             <Text style={styles.buttonGoogleText}>Zaloguj z Google</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Registration")}>
+            <Text style={styles.info}>Nie masz konta? Zarejestruj się</Text>
           </TouchableOpacity>
         </View>
         {loading && <FragmentLoading />}

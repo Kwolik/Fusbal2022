@@ -21,7 +21,7 @@ import FragmentLoading from "../components/fragmentLoading.js";
 import photo from "../assets/backgroundlogin.png";
 import { TextInput } from "react-native-paper";
 
-export default function RegistrationScreen() {
+export default function RegistrationScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -115,7 +115,7 @@ export default function RegistrationScreen() {
             style={[styles.buttonFacebook]}
           >
             <Image
-              source={require("../assets/facebooklogo.png")}
+              source={require("../assets/logo/facebooklogo.png")}
               style={styles.logo}
             />
             <Text style={styles.buttonFacebookText}>Zaloguj z Facebook</Text>
@@ -125,10 +125,13 @@ export default function RegistrationScreen() {
             style={styles.buttonGoogle}
           >
             <Image
-              source={require("../assets/googlelogo.png")}
+              source={require("../assets/logo/googlelogo.png")}
               style={styles.logo}
             />
             <Text style={styles.buttonGoogleText}>Zaloguj z Google</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <Text style={styles.info}>Masz konto? Zaloguj się</Text>
           </TouchableOpacity>
         </View>
         {loading && <FragmentLoading />}

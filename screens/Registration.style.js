@@ -18,16 +18,16 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 21,
-    //fontFamily: "Work Sans",
+    fontFamily: "Work-Sans",
     fontStyle: "normal",
     fontWeight: "700",
-    lineHeight: 32,
     alignItems: "center",
     letterSpacing: 0.15,
     color: "#0D4A85",
+    lineHeight: 32,
   },
   inputContainer: {
-    marginTop: 48,
+    marginTop: "11%",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonContainer: {
-    marginTop: 16,
+    marginTop: "3.5%",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -64,9 +64,8 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontWeight: "500",
     fontSize: 15,
-    //fontFamily: "Work Sans",
+    fontFamily: "Work-Sans",
     fontStyle: "normal",
-    lineHeight: 26,
     letterSpacing: 0.46,
   },
   buttonFacebook: {
@@ -76,7 +75,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     width: "54%",
     height: 42,
-    marginTop: 68,
+    marginTop: "16%",
     flexDirection: "row",
   },
   logo: {
@@ -87,9 +86,8 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontWeight: "400",
     fontSize: 15,
-    //fontFamily: "Work Sans",
+    fontFamily: "Work-Sans",
     fontStyle: "normal",
-    lineHeight: 18,
   },
   buttonGoogle: {
     justifyContent: "center",
@@ -98,7 +96,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     width: "54%",
     height: 42,
-    marginTop: 32,
+    marginTop: "8%",
     flexDirection: "row",
     //Shadow przycisku
     shadowColor: "#000",
@@ -109,14 +107,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 4,
     elevation: 2,
+    marginBottom: "10%",
   },
   buttonGoogleText: {
     color: "rgba(0, 0, 0, 0.54)",
     fontWeight: "500",
     fontSize: 15,
-    //fontFamily: "Work Sans",
+    fontFamily: "Work-Sans",
     fontStyle: "normal",
-    lineHeight: 18,
+  },
+  info: {
+    fontWeight: "500",
+    fontSize: 13,
+    fontFamily: "Work-Sans",
+    fontStyle: "normal",
+    color: "#0D4A85",
+    letterSpacing: 0.17,
   },
 });
 
