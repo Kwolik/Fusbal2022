@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Image, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -7,6 +7,7 @@ import LoginScreen from "./screens/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen";
 import HomeScreen from "./screens/HomeScreen";
 import SettingsScreen from "./screens/SettingsScreen";
+import AllMatches from "./screens/AllMatches";
 import MatchScreen from "./screens/MatchScreen";
 import TypeScore from "./screens/TypeScore";
 import TeamandPlayerWin from "./screens/TeamandPlayerWin";
@@ -29,6 +30,7 @@ export default function App() {
   const loadFonts = async () => {
     await Font.loadAsync({
       "Work-Sans": require("./assets/fonts/WorkSans-Regular.ttf"),
+      "Work-Sans-Bold": require("./assets/fonts/WorkSans-Bold.ttf"),
     });
     setLoaded(true);
   };
@@ -75,9 +77,10 @@ export default function App() {
         <NavigationContainer>
           {authentication ? (
             <Tab.Navigator
-              tabBarOptions={{
-                activeTintColor: "#0D4A85",
-                inactiveTintColor: "rgba(0, 0, 0, 0.6)",
+              screenOptions={{
+                tabBarActiveTintColor: "#0D4A85",
+                tabBarInactiveTintColor: "rgba(0, 0, 0, 0.6)",
+                headerShown: false,
               }}
             >
               <Tab.Screen
@@ -100,7 +103,7 @@ export default function App() {
               />
               <Tab.Screen
                 name="Match"
-                component={HomeScreen}
+                component={MatchStackScreen}
                 options={{
                   tabBarLabel: "Mecze",
                   tabBarLabelStyle: styles.label,
@@ -173,10 +176,23 @@ export default function App() {
   );
 }
 
+const MatchStack = createNativeStackNavigator();
+const MatchStackScreen = () => (
+  <MatchStack.Navigator headerMode={"none"}>
+    <MatchStack.Screen
+      name={"AllMatches"}
+      component={AllMatches}
+      options={{ headerShown: false }}
+    />
+    <MatchStack.Screen
+      name={"MatchScreen"}
+      component={MatchScreen}
+      options={{ headerShown: false }}
+    />
+  </MatchStack.Navigator>
+);
+
 const styles = StyleSheet.create({
-  navigator: {
-    height: 86,
-  },
   label: {
     fontSize: 11,
     fontFamily: "Work-Sans",
