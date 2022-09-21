@@ -1,53 +1,69 @@
 import { StyleSheet, Text, FlatList, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import { firestore } from "../components/firebase";
+import styles from "./MatchScreen.style";
+import CountryFlag from "react-native-country-flag";
 
-export default function MatchScreen() {
-  const [matches, setMatches] = useState([]);
-  const todoRef = firestore.collection("matches");
+export default function MatchScreen({ route }) {
+  const [match, setMatch] = useState();
+  const todoRef = firestore.collection("matches").doc(route.params.id);
 
   useEffect(() => {
-    const updateMachtes = todoRef.onSnapshot((querySnapshot) => {
-      const match = [];
-      querySnapshot.forEach((doc) => {
-        const { club1, club2, type } = doc.data();
-        match.push({
-          id: doc.id,
-          club1,
-          club2,
-          type,
-        });
-        console.log(club1);
+    todoRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          setMatch(doc.data());
+        } else {
+          console.log("No such document!");
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting document:", error);
       });
-      setMatches(match);
-    });
-
-    return updateMachtes;
   }, []);
 
-  return (
+  console.log(route.params.id);
+
+  return match ? (
     <View style={styles.container}>
-      <FlatList
-        style={{ flex: 1, borderWidth: 2, borderColor: "red" }}
-        data={matches}
-        numColumns={1}
-        renderItem={({ item }) => (
-          <View>
-            <Text>
-              {item.club1} - {item.club2}
+      <View style={styles.background}>
+        <View style={styles.positionTextBackground}>
+          <Text style={styles.textBackground}>
+            {match.club1} - {match.club2}
+          </Text>
+        </View>
+        <View style={styles.matchInfo}>
+          <View style={styles.info}>
+            <Text style={styles.dateAndHour}>
+              {match.date} {match.hour}
             </Text>
-            <Text>{item.type}</Text>
           </View>
-        )}
-      />
+          <View style={styles.meetInfo}>
+            <View style={styles.countryFlag}>
+              <CountryFlag
+                isoCode={match.club1id ? match.club1id : ""}
+                size={40}
+              />
+              <Text style={styles.country}>{match.club1}</Text>
+            </View>
+            <View style={styles.viewScore}>
+              <Text style={styles.score}>
+                {match.result ? match.result : "-"}
+              </Text>
+            </View>
+            <View style={styles.countryFlag}>
+              <CountryFlag
+                isoCode={match.club2id ? match.club2id : ""}
+                size={40}
+              />
+              <Text style={styles.country}>{match.club2}</Text>
+            </View>
+          </View>
+        </View>
+      </View>
     </View>
+  ) : (
+    <Text>Siema</Text> //zmienic leppiej pozniej na loading
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
