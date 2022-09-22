@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
   info: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 8,
-    marginBottom: 8,
+    marginTop: 12,
+    marginBottom: 4,
   },
   dateAndHour: {
     fontFamily: "Work-Sans",
@@ -58,8 +58,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "34%",
-    borderColor: "red",
-    borderWidth: 2,
   },
   viewScore: {
     justifyContent: "center",
@@ -67,7 +65,7 @@ const styles = StyleSheet.create({
   },
   score: {
     textAlign: "center",
-    fontFamily: "Work-Sans",
+    fontFamily: "Work-Sans-Bold",
     fontStyle: "normal",
     fontWeight: "700",
     fontSize: 20,
@@ -75,13 +73,16 @@ const styles = StyleSheet.create({
     letterSpacing: 2.15,
     color: "#121212",
   },
+  viewCountry: {
+    height: 38,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   country: {
     fontFamily: "Work-Sans",
     fontStyle: "normal",
     fontWeight: "600",
     fontSize: 14,
-    lineHeight: 24,
-    marginTop: 4,
     letterSpacing: 0.15,
     color: "#121212",
     textAlign: "center",

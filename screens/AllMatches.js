@@ -1,9 +1,9 @@
-import { View, Text, ImageBackground, FlatList } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
 import styles from "./AllMatches.style";
-import photo from "../assets/backgroundhome.png";
 import { firestore } from "../components/firebase";
 import OneRowMatch from "../components/OneRowMatch";
+import Svg, { Path } from "react-native-svg";
 
 export default function AllMatches({ navigation }) {
   const [matches, setMatches] = useState([]);
@@ -34,30 +34,37 @@ export default function AllMatches({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={photo} style={styles.photo}>
-        <View style={styles.viewTitle}>
-          <Text style={styles.title}>Wszystkie mecze</Text>
-          <View style={styles.flatlist}>
-            <FlatList
-              data={matches}
-              numColumns={1}
-              renderItem={({ item }) => (
-                <OneRowMatch
-                  id={item.id}
-                  club1={item.club1}
-                  club1id={item.club1id}
-                  club2={item.club2}
-                  club2id={item.club2id}
-                  date={item.date}
-                  hour={item.hour}
-                  result={item.result}
-                  navigation={navigation}
-                />
-              )}
-            />
-          </View>
+      <Svg
+        width="100%"
+        height={288}
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ position: "absolute", right: 0 }}
+      >
+        <Path d="M43 131L0 0H420V288L340 189H138L43 131Z" fill="#0D4A85" />
+      </Svg>
+      <View style={styles.viewTitle}>
+        <Text style={styles.title}>Wszystkie mecze</Text>
+        <View style={styles.flatlist}>
+          <FlatList
+            data={matches}
+            numColumns={1}
+            renderItem={({ item }) => (
+              <OneRowMatch
+                id={item.id}
+                club1={item.club1}
+                club1id={item.club1id}
+                club2={item.club2}
+                club2id={item.club2id}
+                date={item.date}
+                hour={item.hour}
+                result={item.result}
+                navigation={navigation}
+              />
+            )}
+          />
         </View>
-      </ImageBackground>
+      </View>
     </View>
   );
 }

@@ -5,13 +5,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F9F9F9",
   },
-  photo: {
-    width: "100%",
-    height: "58%",
-    //flex: 1
-  },
   viewTitle: {
-    marginTop: 80,
+    marginTop: 60,
     alignItems: "center",
   },
   title: {
@@ -26,7 +21,7 @@ const styles = StyleSheet.create({
   flatlist: {
     width: "86%",
     marginTop: 40,
-    height: "120%",
+    height: "86%",
   },
 });
 

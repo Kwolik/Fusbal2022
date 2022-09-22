@@ -1,4 +1,4 @@
-import { StyleSheet, Text, FlatList, View } from "react-native";
+import { Text, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import { firestore } from "../components/firebase";
 import styles from "./MatchScreen.style";
@@ -45,7 +45,9 @@ export default function MatchScreen({ route }) {
                 isoCode={match.club1id ? match.club1id : ""}
                 size={40}
               />
-              <Text style={styles.country}>{match.club1}</Text>
+              <View style={styles.viewCountry}>
+                <Text style={styles.country}>{match.club1}</Text>
+              </View>
             </View>
             <View style={styles.viewScore}>
               <Text style={styles.score}>
@@ -57,7 +59,9 @@ export default function MatchScreen({ route }) {
                 isoCode={match.club2id ? match.club2id : ""}
                 size={40}
               />
-              <Text style={styles.country}>{match.club2}</Text>
+              <View style={styles.viewCountry}>
+                <Text style={styles.country}>{match.club2}</Text>
+              </View>
             </View>
           </View>
         </View>
