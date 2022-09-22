@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, View, Image } from "react-native";
 import React, { useState, useEffect } from "react";
 import { firestore } from "../components/firebase";
 import styles from "./MatchScreen.style";
@@ -41,10 +41,22 @@ export default function MatchScreen({ route }) {
           </View>
           <View style={styles.meetInfo}>
             <View style={styles.countryFlag}>
-              <CountryFlag
-                isoCode={match.club1id ? match.club1id : ""}
-                size={40}
-              />
+              {match.club1id &&
+              (match.club1id == "en" || match.club1id == "wl") ? (
+                <Image
+                  source={
+                    match.club1id == "en"
+                      ? require("../assets/england.png")
+                      : require("../assets/wales.png")
+                  }
+                  style={{ width: 64, height: 48 }}
+                />
+              ) : (
+                <CountryFlag
+                  isoCode={match.club1id ? match.club1id : ""}
+                  size={40}
+                />
+              )}
               <View style={styles.viewCountry}>
                 <Text style={styles.country}>{match.club1}</Text>
               </View>
@@ -55,10 +67,22 @@ export default function MatchScreen({ route }) {
               </Text>
             </View>
             <View style={styles.countryFlag}>
-              <CountryFlag
-                isoCode={match.club2id ? match.club2id : ""}
-                size={40}
-              />
+              {match.club2id &&
+              (match.club2id == "en" || match.club2id == "wl") ? (
+                <Image
+                  source={
+                    match.club2id == "en"
+                      ? require("../assets/england.png")
+                      : require("../assets/wales.png")
+                  }
+                  style={{ width: 64, height: 48 }}
+                />
+              ) : (
+                <CountryFlag
+                  isoCode={match.club2id ? match.club2id : ""}
+                  size={40}
+                />
+              )}
               <View style={styles.viewCountry}>
                 <Text style={styles.country}>{match.club2}</Text>
               </View>

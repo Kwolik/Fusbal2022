@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import styles from "./OneRowMatch.style";
 import CountryFlag from "react-native-country-flag";
@@ -13,17 +13,45 @@ export default function OneRowMatch(props) {
           <Text style={[styles.country, styles.countryRight]}>
             {props.club1}
           </Text>
-          <CountryFlag
-            isoCode={props.club1id ? props.club1id : ""}
-            size={20}
-            style={{ marginRight: 4 }}
-          />
+          {props.club1id && (props.club1id == "en" || props.club1id == "wl") ? (
+            <Image
+              source={
+                props.club1id == "en"
+                  ? require("../assets/england.png")
+                  : require("../assets/wales.png")
+              }
+              style={{ width: 32, height: 24, marginRight: 4 }}
+            />
+          ) : (
+            <CountryFlag
+              isoCode={props.club1id ? props.club1id : ""}
+              size={20}
+              style={{ marginRight: 4 }}
+            />
+          )}
           <Text style={styles.result}>{props.result ? props.result : "-"}</Text>
-          <CountryFlag
-            isoCode={props.club2id ? props.club2id : ""}
-            size={20}
-            style={{ marginLeft: 4 }}
-          />
+          {props.club2id && (props.club2id == "en" || props.club2id == "wl") ? (
+            <Image
+              source={
+                props.club2id == "en"
+                  ? require("../assets/england.png")
+                  : require("../assets/wales.png")
+              }
+              style={{
+                width: 32,
+                height: 22,
+                marginRight: 4,
+              }}
+            />
+          ) : (
+            <CountryFlag
+              isoCode={props.club2id ? props.club2id : ""}
+              size={20}
+              style={{
+                marginRight: 4,
+              }}
+            />
+          )}
           <Text style={[styles.country, styles.countryLeft]}>
             {props.club2}
           </Text>
