@@ -30,10 +30,10 @@ const SettingsScreen = () => {
           .get()
           .then((doc) => {
             if (doc.exists) {
-              setNameUser(doc.data().name);
+              doc.data().name && setNameUser(doc.data().name);
               setEmail(doc.data().email);
-              setNick(doc.data().nick);
-              setPhoto(doc.data().photo);
+              doc.data().nick && setNick(doc.data().nick);
+              doc.data().photo && setPhoto(doc.data().photo);
             } else {
               console.log("No such document!");
             }

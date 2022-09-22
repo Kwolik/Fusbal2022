@@ -10,6 +10,7 @@ import SettingsScreen from "./screens/SettingsScreen";
 import MatchScreen from "./screens/MatchScreen";
 import TypeScore from "./screens/TypeScore";
 import TeamandPlayerWin from "./screens/TeamandPlayerWin";
+import Scoreboard from "./screens/Scoreboard";
 import { auth, db } from "./components/firebase";
 import * as SplashScreen from "expo-splash-screen";
 import mainContext from "./components/mainContext";
@@ -118,10 +119,11 @@ export default function App() {
               />
               <Tab.Screen
                 name="Ranking"
-                component={HomeScreen}
+                component={Scoreboard}
                 options={{
                   tabBarLabel: "Ranking",
                   tabBarLabelStyle: styles.label,
+                  headerShown: false,
                   tabBarIcon: ({ color }) => (
                     <MaterialIcons
                       name="star"
