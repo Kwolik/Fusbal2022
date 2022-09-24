@@ -4,6 +4,7 @@ import styles from "./Scoreboard.style";
 import { Avatar } from "react-native-paper";
 import { firestore } from "../components/firebase";
 import OneRowScoreboard from "./OneRowScoreboard";
+import Svg, { Path } from "react-native-svg";
 
 export default function Scoreboard() {
   const todoRef = firestore.collection("users").orderBy("points");
@@ -45,6 +46,15 @@ export default function Scoreboard() {
 
   return (
     <View style={styles.container}>
+      <Svg
+        width="100%"
+        height={288}
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ position: "absolute", right: 0 }}
+      >
+        <Path d="M43 131L0 0H420V300L340 189H138L43 131Z" fill="#0D4A85" />
+      </Svg>
       <Text style={styles.title}>Ranking graczy</Text>
       <View style={styles.ranked}>
         <View style={styles.numberTwo}>
@@ -106,7 +116,7 @@ export default function Scoreboard() {
               nick={item.nick}
               photo={item.photo}
               points={item.points}
-              number={index+4}
+              number={index + 4}
             />
           )}
         />

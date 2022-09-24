@@ -4,7 +4,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#0D4A85", //do zmiany jak doda sie svg
   },
   title: {
     fontFamily: "Work-Sans",
@@ -13,7 +12,7 @@ const styles = StyleSheet.create({
     fontSize: 21,
     lineHeight: 24,
     letterSpacing: 0.15,
-    marginTop: 80,
+    marginTop: 64,
     color: "#FFFFFF",
   },
   ranked: {
@@ -70,7 +69,7 @@ const styles = StyleSheet.create({
     color: "rgba(0, 0, 0, 0.87)",
   },
   flatlist: {
-    width: "86%",
+    width: "80%",
     height: "54%",
     marginTop: 20,
   },
