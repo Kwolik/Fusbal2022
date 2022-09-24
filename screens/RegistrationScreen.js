@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   Text,
   Image,
-  ImageBackground,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import styles from "./Registration.style";
@@ -18,8 +17,8 @@ import {
   signInWithCredential,
 } from "firebase/auth";
 import FragmentLoading from "../components/fragmentLoading.js";
-import photo from "../assets/backgroundlogin.png";
 import { TextInput } from "react-native-paper";
+import Svg, { Path } from "react-native-svg";
 
 export default function RegistrationScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -71,72 +70,79 @@ export default function RegistrationScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={photo} style={styles.photo}>
-        {/* <KeyboardAvoidingView style={styles.container} behavior="padding"> */}
-        <View style={styles.viewText}>
-          <Text style={styles.text}>Jesteś tu nowy?</Text>
-          <Text style={styles.text}>Zarejestruj się</Text>
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            mode="outlined"
-            label="Adres e-mail"
-            placeholder="twojadres@gmail.com"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            style={styles.input}
-            outlineColor="rgba(0, 0, 0, 0.23)"
-          />
-          <TextInput
-            mode="outlined"
-            label="Hasło"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            style={styles.input}
-            secureTextEntry={visibility}
-            right={
-              <TextInput.Icon
-                icon={visibility ? "eye" : "eye-off"}
-                style={{ top: 4 }}
-                onPress={() => {
-                  setVisibility(!visibility);
-                }}
-              />
-            }
-            outlineColor="rgba(0, 0, 0, 0.23)"
-          />
-        </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={handleSignUp} style={styles.button}>
-            <Text style={styles.buttonText}>Zarejestruj się</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => promptAsync1()}
-            style={[styles.buttonFacebook]}
-          >
-            <Image
-              source={require("../assets/logo/facebooklogo.png")}
-              style={styles.logo}
+      <Svg
+        width="100%"
+        height={210}
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ position: "absolute" }}
+      >
+        <Path d="M43 131L0 0H420V288L340 189H138L43 131Z" fill="#F3F6F9" />
+      </Svg>
+      {/* <KeyboardAvoidingView style={styles.container} behavior="padding"> */}
+      <View style={styles.viewText}>
+        <Text style={styles.text}>Jesteś tu nowy?</Text>
+        <Text style={styles.text}>Zarejestruj się</Text>
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          mode="outlined"
+          label="Adres e-mail"
+          placeholder="twojadres@gmail.com"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+          style={styles.input}
+          outlineColor="rgba(0, 0, 0, 0.23)"
+        />
+        <TextInput
+          mode="outlined"
+          label="Hasło"
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+          style={styles.input}
+          secureTextEntry={visibility}
+          right={
+            <TextInput.Icon
+              icon={visibility ? "eye" : "eye-off"}
+              style={{ top: 4 }}
+              onPress={() => {
+                setVisibility(!visibility);
+              }}
             />
-            <Text style={styles.buttonFacebookText}>Zaloguj z Facebook</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => promptAsync()}
-            style={styles.buttonGoogle}
-          >
-            <Image
-              source={require("../assets/logo/googlelogo.png")}
-              style={styles.logo}
-            />
-            <Text style={styles.buttonGoogleText}>Zaloguj z Google</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text style={styles.info}>Masz konto? Zaloguj się</Text>
-          </TouchableOpacity>
-        </View>
-        {loading && <FragmentLoading />}
-        {/* </KeyboardAvoidingView> */}
-      </ImageBackground>
+          }
+          outlineColor="rgba(0, 0, 0, 0.23)"
+        />
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={handleSignUp} style={styles.button}>
+          <Text style={styles.buttonText}>Zarejestruj się</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => promptAsync1()}
+          style={[styles.buttonFacebook]}
+        >
+          <Image
+            source={require("../assets/logo/facebooklogo.png")}
+            style={styles.logo}
+          />
+          <Text style={styles.buttonFacebookText}>Zaloguj z Facebook</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => promptAsync()}
+          style={styles.buttonGoogle}
+        >
+          <Image
+            source={require("../assets/logo/googlelogo.png")}
+            style={styles.logo}
+          />
+          <Text style={styles.buttonGoogleText}>Zaloguj z Google</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <Text style={styles.info}>Masz konto? Zaloguj się</Text>
+        </TouchableOpacity>
+      </View>
+      {loading && <FragmentLoading />}
+      {/* </KeyboardAvoidingView> */}
     </View>
   );
 }
