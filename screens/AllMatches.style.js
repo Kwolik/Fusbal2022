@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F9F9F9",
   },
   viewTitle: {
-    marginTop: 60,
+    marginTop: 64,
     alignItems: "center",
   },
   title: {

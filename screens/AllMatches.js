@@ -41,7 +41,7 @@ export default function AllMatches({ navigation }) {
         xmlns="http://www.w3.org/2000/svg"
         style={{ position: "absolute", right: 0 }}
       >
-        <Path d="M43 131L0 0H420V288L340 189H138L43 131Z" fill="#0D4A85" />
+        <Path d="M43 131L0 0H420V300L340 189H138L43 131Z" fill="#0D4A85" />
       </Svg>
       <View style={styles.viewTitle}>
         <Text style={styles.title}>Wszystkie mecze</Text>
