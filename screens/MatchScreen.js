@@ -6,6 +6,7 @@ import styles, { styles2 } from "./MatchScreen.style";
 import { TextInput } from "react-native-paper";
 import CountryFlag from "react-native-country-flag";
 import TypeScore from "./TypeScore";
+import FragmentLoading from "../components/fragmentLoading";
 
 export default function MatchScreen({ route }) {
   const [match, setMatch] = useState();
@@ -15,6 +16,12 @@ export default function MatchScreen({ route }) {
   const [types, setTypes] = useState();
   const todoRef = firestore.collection("matches").doc(route.params.id);
   const todoRef2 = firestore.collection("users").orderBy("nick");
+  var date = new Date().toTimeString();
+  var day = new Date().getDate(); //Current Date
+  if (day < 10) day = "0" + day;
+  var month = new Date().getMonth() + 1; //Current Month
+  var hours = new Date().getHours(); //Current Hours
+  var min = new Date().getMinutes(); //Current Minutes
 
   useEffect(() => {
     todoRef
@@ -31,6 +38,7 @@ export default function MatchScreen({ route }) {
       });
   }, []);
 
+  //Zabezpieczyc ta funckje tak zeby sprawdzal najpierw jaka jest godzina a potem dopeiro aktualizowal wynik
   const typeScore = (id) => {
     if (team1 !== null && team2 !== null) {
       auth.onAuthStateChanged((user) => {
@@ -86,7 +94,13 @@ export default function MatchScreen({ route }) {
         <View style={styles.matchInfo}>
           <View style={styles.info}>
             <Text style={styles.dateAndHour}>
-              {match.date} {match.hour}
+              {match.date}{" "}
+              {date.substring(19, 22) == "GMT"
+                ? match.hour.replace(
+                    match.hour.substring(0, 2),
+                    match.hour.substring(0, 2) - 1
+                  )
+                : match.hour}
             </Text>
           </View>
           <View style={styles.meetInfo}>
@@ -156,10 +170,27 @@ export default function MatchScreen({ route }) {
           )}
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => setPopup("flex")}>
-        <Text style={styles.textButton}>Obstaw wynik meczu</Text>
-        <Image source={require("../assets/plus.png")} />
-      </TouchableOpacity>
+      {month + "." + day <
+        match.date.substring(3, 5) + "." + match.date.substring(0, 2) ||
+      (month + "." + day ==
+        match.date.substring(3, 5) + "." + match.date.substring(0, 2) &&
+        hours + ":" + min <=
+          (date.substring(19, 22) == "GMT"
+            ? match.hour.replace(
+                match.hour.substring(0, 2),
+                match.hour.substring(0, 2) - 1
+              )
+            : match.hour)) ? (
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setPopup("flex")}
+        > 
+          <Text style={styles.textButton}>Obstaw wynik meczu</Text>
+          <Image source={require("../assets/plus.png")} />
+        </TouchableOpacity>
+      ) : (
+        <View></View>
+      )}
       {/* POPUP  */}
       <View style={[styles2.container, { display: popup }]}>
         <View style={styles2.popup}>
@@ -249,6 +280,6 @@ export default function MatchScreen({ route }) {
       </View>
     </View>
   ) : (
-    <Text>Siema</Text> //zmienic leppiej pozniej na loading
+    <FragmentLoading />
   );
 }
