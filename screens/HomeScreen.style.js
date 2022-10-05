@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#F9F9F9",
   },
   text: {
     flexDirection: "row",
@@ -16,6 +17,18 @@ const styles = StyleSheet.create({
     letterSpacing: 0.17,
     fontSize: 14,
     color: "#121212",
+  },
+  progres: {
+    width: 240,
+    height: 6,
+  },
+  textProgres: {
+    fontFamily: "Work-Sans",
+    fontStyle: "normal",
+    fontWeight: "400",
+    letterSpacing: 0.17,
+    fontSize: 14,
+    color: "#FFA726",
   },
   all: {
     fontFamily: "Work-Sans",

@@ -1,17 +1,21 @@
 import { Text, TouchableOpacity, View, Image, ScrollView } from "react-native";
-import React, { useContext, useState, useEffect } from "react";
-import { Avatar } from "react-native-paper";
+import React, { useState, useEffect } from "react";
+import { Avatar, ProgressBar } from "react-native-paper";
 import { firestore } from "../components/firebase";
-import mainContext from "../components/mainContext";
 import styles from "./HomeScreen.style";
 import Svg, { Path } from "react-native-svg";
 import OneRowMatch from "../components/OneRowMatch";
 
 export default function HomeScreen({ navigation }) {
-  const { signOutUser } = useContext(mainContext);
   const [users, setUsers] = useState([]);
   const [lastMatches, setLastMatches] = useState([]);
   const [nextMatches, setNextMatches] = useState([]);
+  const [playMatches, setPlayMacthes] = useState(0);
+
+  var day = new Date().getDate(); //Current Date
+  if (day < 10) day = "0" + day;
+  var month = new Date().getMonth() + 1; //Current Month
+  var year = new Date().getFullYear(); //Current Year
 
   const todoRef = firestore
     .collection("users")
@@ -20,15 +24,29 @@ export default function HomeScreen({ navigation }) {
 
   const todoRef2 = firestore
     .collection("matches")
-    .where("id", "<", "221120221400") //zmienic później datę
+    .where(
+      "id",
+      "<",
+      "" + month == 12
+        ? day.replace(day.substring(0, 2), 30 + new Date().getDate())
+        : day + "" + month + "" + year + "0000"
+    )
     .orderBy("id")
     .limitToLast(4);
 
   const todoRef3 = firestore
     .collection("matches")
-    .where("id", ">", "221120221400") //zmienic później datę
+    .where(
+      "id",
+      ">",
+      "" + month == 12
+        ? day.replace(day.substring(0, 2), 30 + new Date().getDate())
+        : day + "" + month + "" + year + "0000"
+    )
     .orderBy("id")
     .limit(4);
+
+  const todoRef4 = firestore.collection("matches");
 
   useEffect(() => {
     const updateMachtes = todoRef.onSnapshot((querySnapshot) => {
@@ -95,6 +113,24 @@ export default function HomeScreen({ navigation }) {
     return updateMachtes;
   }, []);
 
+  useEffect(() => {
+    const updateMachtes = todoRef4.onSnapshot((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const { result } = doc.data();
+        if (result != "") {
+          setPlayMacthes((prevstate) => prevstate + 1);
+        }
+      });
+    });
+
+    return updateMachtes;
+  }, []);
+
+  // var date = new Date().toTimeString();
+  // var strefa = new Date().toLocaleTimeString();
+  // var utc = new Date().toUTCString();
+  // console.log(utc);
+
   return (
     <View style={styles.container}>
       <Svg
@@ -106,10 +142,18 @@ export default function HomeScreen({ navigation }) {
       >
         <Path d="M43 131L0 0H420V300L340 189H138L43 131Z" fill="#F3F6F9" />
       </Svg>
-      <TouchableOpacity style={styles.button} onPress={() => signOutUser()}>
-        <Text style={styles.buttonText}>Sign out</Text>
-      </TouchableOpacity>
       <ScrollView>
+        <Text style={styles.title}>Rozegrane mecze</Text>
+        <View style={styles.text}>
+          <ProgressBar
+            progress={playMatches / 64}
+            color="#FFA726"
+            style={styles.progres}
+          />
+          <Text style={styles.textProgres}>
+            {((playMatches / 64) * 100).toFixed(0) + "%"}
+          </Text>
+        </View>
         <View style={styles.text}>
           <Text style={styles.title}>Ranking</Text>
           <TouchableOpacity onPress={() => navigation.navigate("Ranking")}>
@@ -179,8 +223,8 @@ export default function HomeScreen({ navigation }) {
         )}
         <View>
           <Text style={styles.title}>Następne mecze</Text>
-          <View style={styles.flatlist}>
-            {lastMatches.map((item, index) => (
+          <View>
+            {nextMatches.map((item, index) => (
               <OneRowMatch
                 key={index}
                 id={item.id}
@@ -198,8 +242,8 @@ export default function HomeScreen({ navigation }) {
         </View>
         <View>
           <Text style={styles.title}>Poprzednie mecze</Text>
-          <View style={styles.flatlist}>
-            {nextMatches.map((item, index) => (
+          <View>
+            {lastMatches.map((item, index) => (
               <OneRowMatch
                 key={index}
                 id={item.id}
