@@ -1,4 +1,11 @@
-import { Text, View, Image, TouchableOpacity, FlatList } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  Modal,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import { auth, firestore, db } from "../components/firebase";
 import { doc, getDoc } from "firebase/firestore";
@@ -12,8 +19,8 @@ export default function MatchScreen({ route }) {
   const [match, setMatch] = useState();
   const [team1, setTeam1] = useState();
   const [team2, setTeam2] = useState();
-  const [popup, setPopup] = useState("none");
   const [types, setTypes] = useState();
+  const [visible, setVisible] = useState(false);
   const todoRef = firestore.collection("matches").doc(route.params.id);
   const todoRef2 = firestore.collection("users").orderBy("nick");
   var date = new Date().toTimeString();
@@ -183,8 +190,8 @@ export default function MatchScreen({ route }) {
             : match.hour)) ? (
         <TouchableOpacity
           style={styles.button}
-          onPress={() => setPopup("flex")}
-        > 
+          onPress={() => setVisible(true)}
+        >
           <Text style={styles.textButton}>Obstaw wynik meczu</Text>
           <Image source={require("../assets/plus.png")} />
         </TouchableOpacity>
@@ -192,92 +199,99 @@ export default function MatchScreen({ route }) {
         <View></View>
       )}
       {/* POPUP  */}
-      <View style={[styles2.container, { display: popup }]}>
-        <View style={styles2.popup}>
-          <Text style={styles2.desc}>Obstaw wynik meczu</Text>
-          <View style={styles2.meetInfo}>
-            <View style={styles2.countryFlag}>
-              {match.club1id &&
-              (match.club1id == "en" || match.club1id == "wl") ? (
-                <Image
-                  source={
-                    match.club1id == "en"
-                      ? require("../assets/england.png")
-                      : require("../assets/wales.png")
-                  }
-                  style={{ width: 64, height: 40 }}
+      <Modal
+        visible={visible}
+        onRequestClose={() => setVisible(false)}
+        animationType="slide"
+        transparent={true}
+      >
+        <View style={styles2.container}>
+          <View style={styles2.popup}>
+            <Text style={styles2.desc}>Obstaw wynik meczu</Text>
+            <View style={styles2.meetInfo}>
+              <View style={styles2.countryFlag}>
+                {match.club1id &&
+                (match.club1id == "en" || match.club1id == "wl") ? (
+                  <Image
+                    source={
+                      match.club1id == "en"
+                        ? require("../assets/england.png")
+                        : require("../assets/wales.png")
+                    }
+                    style={{ width: 64, height: 40 }}
+                  />
+                ) : (
+                  <CountryFlag
+                    isoCode={match.club1id ? match.club1id : ""}
+                    size={40}
+                  />
+                )}
+                <View style={styles2.viewCountry}>
+                  <Text style={styles2.country}>{match.club1}</Text>
+                </View>
+                <TextInput
+                  mode="outlined"
+                  placeholder="0"
+                  keyboardType="numeric"
+                  value={team1}
+                  onChangeText={(text) => setTeam1(text)}
+                  style={styles2.input}
+                  outlineColor="rgba(0, 0, 0, 0.23)"
                 />
-              ) : (
-                <CountryFlag
-                  isoCode={match.club1id ? match.club1id : ""}
-                  size={40}
-                />
-              )}
-              <View style={styles2.viewCountry}>
-                <Text style={styles2.country}>{match.club1}</Text>
               </View>
-              <TextInput
-                mode="outlined"
-                placeholder="0"
-                keyboardType="numeric"
-                value={team1}
-                onChangeText={(text) => setTeam1(text)}
-                style={styles2.input}
-                outlineColor="rgba(0, 0, 0, 0.23)"
-              />
-            </View>
-            <View style={styles2.viewScore}>
-              <Text style={styles2.score}>-</Text>
-            </View>
-            <View style={styles2.countryFlag}>
-              {match.club2id &&
-              (match.club2id == "en" || match.club2id == "wl") ? (
-                <Image
-                  source={
-                    match.club2id == "en"
-                      ? require("../assets/england.png")
-                      : require("../assets/wales.png")
-                  }
-                  style={{ width: 64, height: 40 }}
-                />
-              ) : (
-                <CountryFlag
-                  isoCode={match.club2id ? match.club2id : ""}
-                  size={40}
-                />
-              )}
-              <View style={styles2.viewCountry}>
-                <Text style={styles2.country}>{match.club2}</Text>
+              <View style={styles2.viewScore}>
+                <Text style={styles2.score}>-</Text>
               </View>
-              <TextInput
-                mode="outlined"
-                placeholder="0"
-                keyboardType="numeric"
-                value={team2}
-                onChangeText={(text) => setTeam2(text)}
-                style={styles2.input}
-                outlineColor="rgba(0, 0, 0, 0.23)"
-              />
+              <View style={styles2.countryFlag}>
+                {match.club2id &&
+                (match.club2id == "en" || match.club2id == "wl") ? (
+                  <Image
+                    source={
+                      match.club2id == "en"
+                        ? require("../assets/england.png")
+                        : require("../assets/wales.png")
+                    }
+                    style={{ width: 64, height: 40 }}
+                  />
+                ) : (
+                  <CountryFlag
+                    isoCode={match.club2id ? match.club2id : ""}
+                    size={40}
+                  />
+                )}
+                <View style={styles2.viewCountry}>
+                  <Text style={styles2.country}>{match.club2}</Text>
+                </View>
+                <TextInput
+                  mode="outlined"
+                  placeholder="0"
+                  keyboardType="numeric"
+                  value={team2}
+                  onChangeText={(text) => setTeam2(text)}
+                  style={styles2.input}
+                  outlineColor="rgba(0, 0, 0, 0.23)"
+                />
+              </View>
             </View>
-          </View>
-          <View style={styles2.viewButtons}>
-            <TouchableOpacity
-              style={styles2.button}
-              onPress={() => setPopup("none")}
-            >
-              <Text style={styles2.close}>ANULUJ</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles2.button}
-              onPress={() => {
-                setPopup("none"), typeScore(match.id);
-              }}
-            >
-              <Text style={styles2.add}>DODAJ</Text>
-            </TouchableOpacity>
+            <View style={styles2.viewButtons}>
+              <TouchableOpacity
+                style={styles2.button}
+                onPress={() => setVisible(false)}
+              >
+                <Text style={styles2.close}>ANULUJ</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles2.button}
+                onPress={() => {
+                  setVisible(false), typeScore(match.id);
+                }}
+              >
+                <Text style={styles2.add}>DODAJ</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
+      </Modal>
     </View>
   ) : (
     <FragmentLoading />
