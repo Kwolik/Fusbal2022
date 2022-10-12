@@ -1,33 +1,94 @@
-import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
-import React from "react";
+import { View, StyleSheet, Animated } from "react-native";
+import React, { useState } from "react";
 
-//Dopracować później fragment loading
+//Nie działa nie wiedzieć czemu
 export default function FragmentLoading() {
+  const [animation, setAnimation] = useState(new Animated.Value(0));
+
+  Animated.timing(animation, {
+    toValue: 1,
+    duration: 800,
+    useNativeDriver: false,
+  }).start(() => {
+    Animated.timing(animation, {
+      toValue: 0,
+      duration: 800,
+      useNativeDriver: false,
+    }).start(() => setAnimation(new Animated.Value(0)));
+  });
+
+  const boxInterpolation = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["#D9D9D9", "#F3F4F6"],
+  });
+  const animatedStyle = {
+    backgroundColor: boxInterpolation,
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Dodac pozniej zdj apki</Text>
-      <ActivityIndicator
-        style={{
-          position: "absolute",
-          left: "50%",
-          right: "50%",
-          top: "50%",
-          bottom: "50%",
-        }}
-        color={"#F39B36"}
-        size={100}
-        opacity={1.0}
-      />
+      <Animated.View style={{ ...styles.box, ...animatedStyle }} />
+      <View style={{ flexDirection: "row" }}>
+        <Animated.View style={{ ...styles.circle1, ...animatedStyle }} />
+        <Animated.View style={{ ...styles.circle, ...animatedStyle }} />
+        <Animated.View style={{ ...styles.circle2, ...animatedStyle }} />
+      </View>
+      <Animated.View style={{ ...styles.box2, ...animatedStyle }} />
+      <View style={{ marginTop: 16, width: "80%" }}>
+        <Animated.View style={{ ...styles.box3, ...animatedStyle }} />
+        <Animated.View style={{ ...styles.box3, ...animatedStyle }} />
+        <Animated.View style={{ ...styles.box3, ...animatedStyle }} />
+        <Animated.View style={{ ...styles.box3, ...animatedStyle }} />
+        <Animated.View style={{ ...styles.box3, ...animatedStyle }} />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    position: "absolute",
-    backgroundColor: "#00bcd4",
-    width: "100%",
-    height: "100%",
-    opacity: 0.8,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  box: {
+    width: 184,
+    height: 24,
+    backgroundColor: "#D9D9D9",
+  },
+  circle: {
+    width: 88,
+    height: 88,
+    borderRadius: 44,
+    backgroundColor: "#D9D9D9",
+    marginTop: 48,
+  },
+  circle1: {
+    width: 64,
+    height: 64,
+    borderRadius: 44,
+    backgroundColor: "#D9D9D9",
+    marginTop: 72,
+    marginRight: -16,
+  },
+  circle2: {
+    width: 64,
+    height: 64,
+    borderRadius: 44,
+    backgroundColor: "#D9D9D9",
+    marginTop: 72,
+    marginLeft: -16,
+  },
+  box2: {
+    width: 184,
+    height: 16,
+    backgroundColor: "#D9D9D9",
+    marginTop: 4,
+  },
+  box3: {
+    height: 48,
+    backgroundColor: "#D9D9D9",
+    borderRadius: 8,
+    marginBottom: 12,
   },
 });
