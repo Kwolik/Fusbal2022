@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./TypeScore.style";
 import { Avatar } from "react-native-paper";
 import { firestore } from "../components/firebase";
+import FragmentLoadingRow from "../components/fragmentLoadingRow";
 
 export default function TypeScore(props) {
   const [data, setData] = useState([]);
@@ -47,6 +48,6 @@ export default function TypeScore(props) {
       </View>
     </View>
   ) : (
-    <View></View>
+    <FragmentLoadingRow />
   );
 }
