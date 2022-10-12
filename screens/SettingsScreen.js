@@ -16,6 +16,7 @@ import OneScoreMatch from "./OneScoreMatch";
 import * as ImagePicker from "expo-image-picker";
 import { TeamList } from "../components/TeamList";
 import mainContext from "../components/mainContext";
+import FragmentLoading from "../components/fragmentLoading";
 
 export default function SettingsScreen({ navigation }) {
   const { signOutUser } = useContext(mainContext);
@@ -34,6 +35,13 @@ export default function SettingsScreen({ navigation }) {
 
   const todoRef = firestore.collection("users").doc(id).collection("types");
 
+  var date = new Date().toTimeString();
+  var day = new Date().getDate(); //Current Date
+  if (day < 10) day = "0" + day;
+  var month = new Date().getMonth() + 1; //Current Month
+  var hours = new Date().getHours(); //Current Hours
+  var min = new Date().getMinutes(); //Current Minutes
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -46,7 +54,10 @@ export default function SettingsScreen({ navigation }) {
             if (doc.exists) {
               doc.data().name && setNameUser(doc.data().name);
               doc.data().nick && setNick(doc.data().nick);
-              doc.data().photo && setPhoto(doc.data().photo);
+              setTimeout(
+                () => doc.data().photo && setPhoto(doc.data().photo),
+                1500
+              );
               doc.data().points && setPoints(doc.data().points);
             } else {
               console.log("No such document!");
@@ -148,9 +159,9 @@ export default function SettingsScreen({ navigation }) {
         .get()
         .then((doc) => {
           if (doc.exists) {
-            docRef.update({ name: footballer });
+            docRef.update({ name: footballer, photo: photo });
           } else {
-            docRef.set({ name: footballer });
+            docRef.set({ name: footballer, photo: photo });
           }
         })
         .catch((error) => {
@@ -161,9 +172,9 @@ export default function SettingsScreen({ navigation }) {
         .get()
         .then((doc) => {
           if (doc.exists) {
-            docRef2.update({ team: team });
+            docRef2.update({ team: team, photo: photo });
           } else {
-            docRef2.set({ team: team });
+            docRef2.set({ team: team, photo: photo });
           }
         })
         .catch((error) => {
@@ -179,7 +190,7 @@ export default function SettingsScreen({ navigation }) {
     }
   };
 
-  return (
+  return photo ? (
     <View style={styles.container}>
       <Svg
         width="100%"
@@ -224,16 +235,23 @@ export default function SettingsScreen({ navigation }) {
           <Text style={styles.textWinner}>Król strzelców</Text>
           <Text style={styles.textType}>{footballer}</Text>
         </View>
-        <TouchableOpacity
-          onPress={() => setVisible(true)}
-          style={styles.infoType}
-        >
-          <Image
-            style={styles.penScore}
-            source={require("../assets/pen.png")}
-          />
-          <Text style={styles.editScore}>Edytuj obstawienie</Text>
-        </TouchableOpacity>
+        {month + "." + day < "11.20" ||
+        (month + "." + day == "11.20" &&
+          hours + ":" + min <=
+            (date.substring(19, 22) == "GMT" ? "16" : "17")) ? (
+          <TouchableOpacity
+            onPress={() => setVisible(true)}
+            style={styles.infoType}
+          >
+            <Image
+              style={styles.penScore}
+              source={require("../assets/pen.png")}
+            />
+            <Text style={styles.editScore}>Edytuj obstawienie</Text>
+          </TouchableOpacity>
+        ) : (
+          <View></View>
+        )}
         <Text style={styles.title}>Obstawione mecze</Text>
       </View>
       <View style={styles.list}>
@@ -383,5 +401,7 @@ export default function SettingsScreen({ navigation }) {
         </View>
       </Modal>
     </View>
+  ) : (
+    <FragmentLoading />
   );
 }

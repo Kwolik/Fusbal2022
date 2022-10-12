@@ -14,8 +14,6 @@ const styles = StyleSheet.create({
     marginTop: 56,
     justifyContent: "center",
     alignItems: "center",
-    borderColor: "red",
-    borderWidth: 2,
   },
   rank: {
     fontFamily: "Work-Sans",
@@ -58,19 +56,15 @@ const styles = StyleSheet.create({
     color: "#F3F4F6",
   },
   textScore: {
-    borderColor: "red",
-    borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 16,
+    marginTop: "5.5%",
   },
   winner: {
-    marginTop: 16,
+    marginTop: "3%",
     flexDirection: "row",
     width: "80%",
     alignItems: "center",
-    borderColor: "red",
-    borderWidth: 2,
   },
   textWinner: {
     fontFamily: "Work-Sans-Bold",
@@ -92,10 +86,9 @@ const styles = StyleSheet.create({
   },
   infoType: {
     flexDirection: "row",
-    borderColor: "red",
-    borderWidth: 2,
     width: "80%",
-    marginTop: 8,
+    marginTop: "1%",
+    alignItems: "center",
   },
   penScore: {
     width: 10,
@@ -118,21 +111,17 @@ const styles = StyleSheet.create({
     letterSpacing: 0.17,
     fontSize: 14,
     color: "rgba(0, 0, 0, 0.87)",
-    borderColor: "red",
-    borderWidth: 2,
     width: "80%",
-    marginTop: 24,
-    marginBottom: 8,
+    marginTop: "6%",
+    marginBottom: "2%",
   },
   list: {
     justifyContent: "center",
     alignItems: "center",
   },
   flatlist: {
-    width: "80%",
-    height: 180, //280
-    borderColor: "red",
-    borderWidth: 2,
+    width: "86%",
+    height: 280,
   },
   buttons: {
     justifyContent: "center",
