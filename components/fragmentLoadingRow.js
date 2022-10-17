@@ -1,25 +1,30 @@
 import { View, StyleSheet, Animated } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-//Nie działa nie wiedzieć czemu
 export default function FragmentLoadingRow() {
   const [animation, setAnimation] = useState(new Animated.Value(0));
 
-  Animated.timing(animation, {
-    toValue: 1,
-    duration: 800,
-    useNativeDriver: false,
-  }).start(() => {
-    Animated.timing(animation, {
-      toValue: 0,
-      duration: 800,
-      useNativeDriver: false,
-    }).start(() => setAnimation(new Animated.Value(0)));
-  });
+  useEffect(() => {
+    Animated.loop(
+      Animated.timing(animation, {
+        toValue: 1,
+        duration: 1800,
+        useNativeDriver: false,
+      })
+    ).start();
+
+    Animated.loop(
+      Animated.timing(animation, {
+        toValue: 2,
+        duration: 1800,
+        useNativeDriver: false,
+      })
+    ).start();
+  }, [animation]);
 
   const boxInterpolation = animation.interpolate({
-    inputRange: [0, 1],
-    outputRange: ["#D9D9D9", "#F3F4F6"],
+    inputRange: [0, 1, 2],
+    outputRange: ["#D9D9D9", "#F3F4F6", "#D9D9D9"],
   });
   const animatedStyle = {
     backgroundColor: boxInterpolation,
