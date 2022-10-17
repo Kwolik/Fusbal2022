@@ -3,15 +3,15 @@ import React, { useEffect, useState } from "react";
 import styles from "./OneScoreMatch.style";
 import CountryFlag from "react-native-country-flag";
 import { firestore } from "../components/firebase";
+import FragmentLoadingRow from "../components/fragmentLoadingRow";
 
 export default function OneScoreMatch(props) {
   var date = new Date().toTimeString();
 
   const [match, setMatch] = useState();
+  const docRef = firestore.collection("matches").doc(props.id);
 
   useEffect(() => {
-    const docRef = firestore.collection("matches").doc(props.id);
-
     docRef
       .get()
       .then((doc) => {
@@ -32,51 +32,57 @@ export default function OneScoreMatch(props) {
     >
       <View style={styles.container}>
         <View style={styles.match}>
-          <Text style={[styles.country, styles.countryRight]}>
-            {match.club1}
-          </Text>
-          {match.club1id && (match.club1id == "en" || match.club1id == "wl") ? (
-            <Image
-              source={
-                match.club1id == "en"
-                  ? require("../assets/england.png")
-                  : require("../assets/wales.png")
-              }
-              style={{ width: 32, height: 24, marginRight: 4 }}
-            />
-          ) : (
-            <CountryFlag
-              isoCode={match.club1id ? match.club1id : ""}
-              size={20}
-              style={{ marginRight: 4 }}
-            />
-          )}
+          <View style={styles.clubLeft}>
+            <Text style={[styles.country, styles.countryRight]}>
+              {match.club1}
+            </Text>
+            {match.club1id &&
+            (match.club1id == "en" || match.club1id == "wl") ? (
+              <Image
+                source={
+                  match.club1id == "en"
+                    ? require("../assets/england.png")
+                    : require("../assets/wales.png")
+                }
+                style={{ width: 32, height: 24, marginRight: 4 }}
+              />
+            ) : (
+              <CountryFlag
+                isoCode={match.club1id ? match.club1id : ""}
+                size={20}
+                style={{ marginRight: 4 }}
+              />
+            )}
+          </View>
           <Text style={styles.result}>{match.result ? match.result : "-"}</Text>
-          {match.club2id && (match.club2id == "en" || match.club2id == "wl") ? (
-            <Image
-              source={
-                match.club2id == "en"
-                  ? require("../assets/england.png")
-                  : require("../assets/wales.png")
-              }
-              style={{
-                width: 32,
-                height: 22,
-                marginRight: 4,
-              }}
-            />
-          ) : (
-            <CountryFlag
-              isoCode={match.club2id ? match.club2id : ""}
-              size={20}
-              style={{
-                marginRight: 4,
-              }}
-            />
-          )}
-          <Text style={[styles.country, styles.countryLeft]}>
-            {match.club2}
-          </Text>
+          <View style={styles.clubRight}>
+            {match.club2id &&
+            (match.club2id == "en" || match.club2id == "wl") ? (
+              <Image
+                source={
+                  match.club2id == "en"
+                    ? require("../assets/england.png")
+                    : require("../assets/wales.png")
+                }
+                style={{
+                  width: 32,
+                  height: 22,
+                  marginRight: 4,
+                }}
+              />
+            ) : (
+              <CountryFlag
+                isoCode={match.club2id ? match.club2id : ""}
+                size={20}
+                style={{
+                  marginRight: 4,
+                }}
+              />
+            )}
+            <Text style={[styles.country, styles.countryLeft]}>
+              {match.club2}
+            </Text>
+          </View>
           <View style={styles.info}>
             <Text style={styles.date}>{match.date}</Text>
             <Text style={styles.hour}>
@@ -104,6 +110,6 @@ export default function OneScoreMatch(props) {
       </View>
     </TouchableOpacity>
   ) : (
-    <View></View>
+    <FragmentLoadingRow />
   );
 }
