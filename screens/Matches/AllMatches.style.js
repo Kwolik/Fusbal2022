@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F9F9F9",
   },
   viewTitle: {
-    marginTop: 64,
+    marginTop: 32,
     alignItems: "center",
   },
   title: {
@@ -19,9 +19,9 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   flatlist: {
-    width: "86%",
+    width: "88%",
     marginTop: 40,
-    height: "86%",
+    height: "89%",
   },
 });
 

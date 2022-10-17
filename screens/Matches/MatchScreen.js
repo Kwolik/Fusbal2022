@@ -7,18 +7,18 @@ import {
   Modal,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { auth, firestore, db } from "../components/firebase";
+import { auth, firestore, db } from "../../components/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import styles, { styles2 } from "./MatchScreen.style";
 import { TextInput } from "react-native-paper";
 import CountryFlag from "react-native-country-flag";
 import TypeScore from "./TypeScore";
-import FragmentLoading from "../components/fragmentLoading";
+import FragmentLoading from "../../components/fragmentLoading";
 
 export default function MatchScreen({ route }) {
   const [match, setMatch] = useState();
-  const [team1, setTeam1] = useState();
-  const [team2, setTeam2] = useState();
+  const [team1, setTeam1] = useState("");
+  const [team2, setTeam2] = useState("");
   const [types, setTypes] = useState();
   const [visible, setVisible] = useState(false);
   const todoRef = firestore.collection("matches").doc(route.params.id);
@@ -28,6 +28,7 @@ export default function MatchScreen({ route }) {
   if (day < 10) day = "0" + day;
   var month = new Date().getMonth() + 1; //Current Month
   var hours = new Date().getHours(); //Current Hours
+  if (hours < 10) hours = "0" + hours;
   var min = new Date().getMinutes(); //Current Minutes
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function MatchScreen({ route }) {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          setMatch(doc.data());
+          setTimeout(() => setMatch(doc.data()), 1500);
         } else {
           console.log("No such document!");
         }
@@ -47,29 +48,43 @@ export default function MatchScreen({ route }) {
 
   //Zabezpieczyc ta funckje tak zeby sprawdzal najpierw jaka jest godzina a potem dopeiro aktualizowal wynik
   const typeScore = (id) => {
-    if (team1 !== null && team2 !== null) {
-      auth.onAuthStateChanged((user) => {
-        if (user) {
-          getDoc(doc(db, "types", user.uid)).then((docSnap) => {
-            if (docSnap.exists()) {
-              firestore
-                .collection("users")
-                .doc(user.uid)
-                .collection("types")
-                .doc(id)
-                .update({ type: team1 + ":" + team2, points: 0 });
-            } else {
-              firestore
-                .collection("users")
-                .doc(user.uid)
-                .collection("types")
-                .doc(id)
-                .set({ type: team1 + ":" + team2, points: 0 });
-            }
-          });
-        }
-      });
-    }
+    if (
+      month + "." + day <
+        match.date.substring(3, 5) + "." + match.date.substring(0, 2) ||
+      (month + "." + day ==
+        match.date.substring(3, 5) + "." + match.date.substring(0, 2) &&
+        hours + ":" + min <=
+          (date.substring(19, 22) == "GMT"
+            ? match.hour.replace(
+                match.hour.substring(0, 2),
+                match.hour.substring(0, 2) - 1
+              )
+            : match.hour))
+    ) {
+      if (team1 !== "" && team2 !== "") {
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            getDoc(doc(db, "types", user.uid)).then((docSnap) => {
+              if (docSnap.exists()) {
+                firestore
+                  .collection("users")
+                  .doc(user.uid)
+                  .collection("types")
+                  .doc(id)
+                  .update({ type: team1 + ":" + team2, points: 0 });
+              } else {
+                firestore
+                  .collection("users")
+                  .doc(user.uid)
+                  .collection("types")
+                  .doc(id)
+                  .set({ type: team1 + ":" + team2, points: 0 });
+              }
+            });
+          }
+        });
+      }
+    } else console.log("po czasie");
   };
 
   useEffect(() => {
@@ -117,8 +132,8 @@ export default function MatchScreen({ route }) {
                 <Image
                   source={
                     match.club1id == "en"
-                      ? require("../assets/england.png")
-                      : require("../assets/wales.png")
+                      ? require("../../assets/england.png")
+                      : require("../../assets/wales.png")
                   }
                   style={{ width: 64, height: 40 }}
                 />
@@ -143,8 +158,8 @@ export default function MatchScreen({ route }) {
                 <Image
                   source={
                     match.club2id == "en"
-                      ? require("../assets/england.png")
-                      : require("../assets/wales.png")
+                      ? require("../../assets/england.png")
+                      : require("../../assets/wales.png")
                   }
                   style={{ width: 64, height: 40 }}
                 />
@@ -193,7 +208,7 @@ export default function MatchScreen({ route }) {
           onPress={() => setVisible(true)}
         >
           <Text style={styles.textButton}>Obstaw wynik meczu</Text>
-          <Image source={require("../assets/plus.png")} />
+          <Image source={require("../../assets/plus.png")} />
         </TouchableOpacity>
       ) : (
         <View></View>
@@ -215,8 +230,8 @@ export default function MatchScreen({ route }) {
                   <Image
                     source={
                       match.club1id == "en"
-                        ? require("../assets/england.png")
-                        : require("../assets/wales.png")
+                        ? require("../../assets/england.png")
+                        : require("../../assets/wales.png")
                     }
                     style={{ width: 64, height: 40 }}
                   />
@@ -248,8 +263,8 @@ export default function MatchScreen({ route }) {
                   <Image
                     source={
                       match.club2id == "en"
-                        ? require("../assets/england.png")
-                        : require("../assets/wales.png")
+                        ? require("../../assets/england.png")
+                        : require("../../assets/wales.png")
                     }
                     style={{ width: 64, height: 40 }}
                   />

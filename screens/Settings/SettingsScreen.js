@@ -10,13 +10,13 @@ import {
 import React, { useState, useEffect, useContext } from "react";
 import styles from "./SettingsScreen.style";
 import Svg, { Path } from "react-native-svg";
-import { auth, firestore } from "../components/firebase";
+import { auth, firestore } from "../../components/firebase";
 import { TextInput, List, Avatar } from "react-native-paper";
-import OneScoreMatch from "./OneScoreMatch";
+import OneScoreMatch from "../OneScoreMatch";
 import * as ImagePicker from "expo-image-picker";
-import { TeamList } from "../components/TeamList";
-import mainContext from "../components/mainContext";
-import FragmentLoading from "../components/fragmentLoading";
+import { TeamList } from "../../components/TeamList";
+import mainContext from "../../components/mainContext";
+import FragmentLoading from "../../components/fragmentLoading";
 
 export default function SettingsScreen({ navigation }) {
   const { signOutUser } = useContext(mainContext);
@@ -24,8 +24,10 @@ export default function SettingsScreen({ navigation }) {
   const [points, setPoints] = useState("");
   const [photo, setPhoto] = useState("");
   const [matches, setMatches] = useState([]);
+  const [rank, setRank] = useState([]);
   const [footballer, setFootballer] = useState("");
   const [team, setTeam] = useState("");
+  const [codeTeam, setCodeTeam] = useState("");
   const [nameUser, setNameUser] = useState("");
   const [nick, setNick] = useState("");
 
@@ -34,6 +36,7 @@ export default function SettingsScreen({ navigation }) {
   const [expanded, setExpanded] = useState(false);
 
   const todoRef = firestore.collection("users").doc(id).collection("types");
+  const todoRef2 = firestore.collection("users").orderBy("points");
 
   var date = new Date().toTimeString();
   var day = new Date().getDate(); //Current Date
@@ -41,6 +44,22 @@ export default function SettingsScreen({ navigation }) {
   var month = new Date().getMonth() + 1; //Current Month
   var hours = new Date().getHours(); //Current Hours
   var min = new Date().getMinutes(); //Current Minutes
+
+  useEffect(() => {
+    const updateMachtes = todoRef2.onSnapshot((querySnapshot) => {
+      const match = [];
+      querySnapshot.forEach((doc) => {
+        const { points } = doc.data();
+        match.push({
+          id: doc.id,
+          points,
+        });
+      });
+      setRank([...match].sort((a, b) => (a.points < b.points ? 1 : -1)));
+    });
+
+    return updateMachtes;
+  }, []);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -172,9 +191,9 @@ export default function SettingsScreen({ navigation }) {
         .get()
         .then((doc) => {
           if (doc.exists) {
-            docRef2.update({ team: team, photo: photo });
+            docRef2.update({ team: team, photo: photo, code: codeTeam });
           } else {
-            docRef2.set({ team: team, photo: photo });
+            docRef2.set({ team: team, photo: photo, code: codeTeam });
           }
         })
         .catch((error) => {
@@ -199,11 +218,13 @@ export default function SettingsScreen({ navigation }) {
         xmlns="http://www.w3.org/2000/svg"
         style={{ position: "absolute", right: 0 }}
       >
-        <Path d="M43 131L0 0H420V300L340 189H138L43 131Z" fill="#0D4A85" />
+        <Path d="M43 111L0 0H420V290L301 160H160L43 111Z" fill="#0D4A85" />
       </Svg>
       <View style={styles.profile}>
         <View>
-          <Text style={styles.rank}>#1pop</Text>
+          <Text style={styles.rank}>
+            #{rank.map((item, index) => item.id == id && index + 1)}
+          </Text>
           <Text style={styles.point}>{points} punkty</Text>
         </View>
         <View>
@@ -220,7 +241,7 @@ export default function SettingsScreen({ navigation }) {
             )}
             <Image
               style={styles.penAvatar}
-              source={require("../assets/pen.png")}
+              source={require("../../assets/pen.png")}
             />
           </TouchableOpacity>
           <Text style={styles.nick}>{nick ? nick : nameUser}</Text>
@@ -245,7 +266,7 @@ export default function SettingsScreen({ navigation }) {
           >
             <Image
               style={styles.penScore}
-              source={require("../assets/pen.png")}
+              source={require("../../assets/pen.png")}
             />
             <Text style={styles.editScore}>Edytuj obstawienie</Text>
           </TouchableOpacity>
@@ -276,7 +297,7 @@ export default function SettingsScreen({ navigation }) {
           onPress={() => setVisible2(true)}
         >
           <Text style={styles.editText}>Edytuj swoje dane</Text>
-          <Image source={require("../assets/pen.png")} />
+          <Image source={require("../../assets/pen.png")} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => signOutUser()}>
           <Text style={styles.logout}>Wyloguj się</Text>
@@ -327,7 +348,9 @@ export default function SettingsScreen({ navigation }) {
                           title={team.value}
                           key={index}
                           onPress={() => {
-                            setTeam(team.value), setExpanded(!expanded);
+                            setCodeTeam(team.code),
+                              setTeam(team.value),
+                              setExpanded(!expanded);
                           }}
                         />
                       ))}

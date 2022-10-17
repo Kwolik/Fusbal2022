@@ -1,8 +1,8 @@
 import { View, Text, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
 import styles from "./AllMatches.style";
-import { firestore } from "../components/firebase";
-import OneRowMatch from "../components/OneRowMatch";
+import { firestore } from "../../components/firebase";
+import OneRowMatch from "../../components/OneRowMatch";
 import Svg, { Path } from "react-native-svg";
 
 export default function AllMatches({ navigation }) {
@@ -41,7 +41,7 @@ export default function AllMatches({ navigation }) {
         xmlns="http://www.w3.org/2000/svg"
         style={{ position: "absolute", right: 0 }}
       >
-        <Path d="M43 131L0 0H420V300L340 189H138L43 131Z" fill="#0D4A85" />
+        <Path d="M43 111L0 0H420V290L301 160H160L43 111Z" fill="#0D4A85" />
       </Svg>
       <View style={styles.viewTitle}>
         <Text style={styles.title}>Wszystkie mecze</Text>

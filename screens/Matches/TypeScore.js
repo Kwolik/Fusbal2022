@@ -2,8 +2,8 @@ import { Text, View, Image } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "./TypeScore.style";
 import { Avatar } from "react-native-paper";
-import { firestore } from "../components/firebase";
-import FragmentLoadingRow from "../components/fragmentLoadingRow";
+import { firestore } from "../../components/firebase";
+import FragmentLoadingRow from "../../components/fragmentLoadingRow";
 
 export default function TypeScore(props) {
   const [data, setData] = useState([]);
@@ -14,7 +14,7 @@ export default function TypeScore(props) {
     .doc(props.matchid);
 
   useEffect(() => {
-    todoRef.onSnapshot((snapshot) => {
+    return todoRef.onSnapshot((snapshot) => {
       setData(snapshot.data());
     });
   }, []);

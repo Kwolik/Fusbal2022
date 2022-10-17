@@ -1,8 +1,4 @@
 import { StyleSheet } from "react-native";
-import { Dimensions } from "react-native";
-
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   container: {
@@ -11,7 +7,7 @@ const styles = StyleSheet.create({
   },
   profile: {
     flexDirection: "row",
-    marginTop: 56,
+    marginTop: 26,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -23,6 +19,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     height: 52,
     lineHeight: 64,
+    marginRight: 16,
   },
   point: {
     fontFamily: "Roboto",
@@ -33,6 +30,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     lineHeight: 20,
     textAlign: "center",
+    marginRight: 16,
   },
   photo: {
     width: 88,
@@ -58,7 +56,7 @@ const styles = StyleSheet.create({
   textScore: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "5.5%",
+    marginTop: "8%",
   },
   winner: {
     marginTop: "3%",
@@ -121,7 +119,7 @@ const styles = StyleSheet.create({
   },
   flatlist: {
     width: "86%",
-    height: 280,
+    height: 220,
   },
   buttons: {
     justifyContent: "center",
@@ -135,7 +133,7 @@ const styles = StyleSheet.create({
     borderRadius: 120,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 30,
+    marginTop: 20,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -161,7 +159,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.17,
     fontSize: 13,
     color: "#0D4A85",
-    marginTop: 24,
+    marginTop: "2%",
   },
   containerPopup: {
     flex: 1,

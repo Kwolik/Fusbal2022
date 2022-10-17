@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     fontFamily: "Work-Sans",
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 29,
+    fontSize: 25,
     letterSpacing: 0.15,
     color: "#1976D2",
     opacity: 0.3,
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   countryFlag: {
     justifyContent: "center",
     alignItems: "center",
-    width: "34%",
+    width: "38%",
   },
   viewScore: {
     justifyContent: "center",

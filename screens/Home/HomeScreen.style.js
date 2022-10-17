@@ -3,21 +3,58 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#F9F9F9",
+  },
+  text: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "80%",
+  },
+  info: {
+    alignItems: "flex-end",
+    marginTop: 12,
+    marginRight: 28,
+    marginBottom: 42,
+  },
+  elements: {
+    justifyContent: "center",
     alignItems: "center",
   },
   title: {
     fontFamily: "Work-Sans",
     fontStyle: "normal",
     fontWeight: "700",
-    fontSize: 21,
-    lineHeight: 24,
-    letterSpacing: 0.15,
-    marginTop: 64,
-    color: "#FFFFFF",
+    letterSpacing: 0.17,
+    fontSize: 14,
+    color: "#121212",
+    width: "80%",
+    marginBottom: 8,
+  },
+  progres: {
+    width: 240,
+    height: 6,
+  },
+  textProgres: {
+    fontFamily: "Work-Sans",
+    fontStyle: "normal",
+    fontWeight: "400",
+    letterSpacing: 0.17,
+    fontSize: 14,
+    color: "#FFA726",
+  },
+  all: {
+    fontFamily: "Work-Sans",
+    fontStyle: "normal",
+    fontWeight: "400",
+    letterSpacing: 0.17,
+    fontSize: 10,
+    color: "rgba(97, 97, 97, 0.9)",
   },
   ranked: {
     flexDirection: "row",
-    marginTop: 12,
+    justifyContent: "center",
+    marginBottom: 64,
   },
   numberOne: {
     alignItems: "center",
@@ -38,7 +75,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 10,
     letterSpacing: 0.17,
-    color: "#FFFFFF",
+    color: "#121212",
   },
   avatar: {
     width: 88,
@@ -68,10 +105,23 @@ const styles = StyleSheet.create({
     letterSpacing: 0.17,
     color: "rgba(0, 0, 0, 0.87)",
   },
+  button: {
+    backgroundColor: "#0782F9",
+    width: "60%",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    marginTop: 40,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "700",
+    fontSize: 16,
+  },
   flatlist: {
-    width: "80%",
-    height: "54%",
-    marginTop: 20,
+    width: "86%",
+    justifyContent: "center",
+    marginBottom: 48,
   },
 });
 

@@ -2,7 +2,7 @@ import { Text, FlatList, View, Image } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "./Scoreboard.style";
 import { Avatar } from "react-native-paper";
-import { firestore } from "../components/firebase";
+import { firestore } from "../../components/firebase";
 import OneRowScoreboard from "./OneRowScoreboard";
 import Svg, { Path } from "react-native-svg";
 
@@ -53,7 +53,7 @@ export default function Scoreboard() {
         xmlns="http://www.w3.org/2000/svg"
         style={{ position: "absolute", right: 0 }}
       >
-        <Path d="M43 131L0 0H420V300L340 189H138L43 131Z" fill="#0D4A85" />
+        <Path d="M43 111L0 0H420V290L301 160H160L43 111Z" fill="#0D4A85" />
       </Svg>
       <Text style={styles.title}>Ranking graczy</Text>
       <View style={styles.ranked}>
@@ -74,7 +74,7 @@ export default function Scoreboard() {
         </View>
         <View style={styles.numberOne}>
           <Text style={styles.number}>1</Text>
-          <Image style={styles.crown} source={require("../assets/crown.png")} />
+          <Image style={styles.crown} source={require("../../assets/crown.png")} />
           {one.photo ? (
             <Image
               style={styles.avatar}

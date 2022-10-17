@@ -6,8 +6,8 @@ import {
   Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import styles from "./Login.styles";
-import { auth } from "../components/firebase.js";
+import styles from "./Registration.style";
+import { auth } from "../../components/firebase.js";
 import * as Google from "expo-auth-session/providers/google";
 import * as Facebook from "expo-auth-session/providers/facebook";
 import {
@@ -16,11 +16,11 @@ import {
   FacebookAuthProvider,
   signInWithCredential,
 } from "firebase/auth";
-import FragmentLoading from "../components/fragmentLoading.js";
+import FragmentLoading from "../../components/fragmentLoading.js";
 import { TextInput } from "react-native-paper";
 import Svg, { Path } from "react-native-svg";
 
-export default function LoginScreen({ navigation }) {
+export default function RegistrationScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -35,13 +35,13 @@ export default function LoginScreen({ navigation }) {
     clientId: "5113450932086183",
   });
 
-  const handleLogin = () => {
+  const handleSignUp = () => {
     setLoading(true);
     auth
-      .signInWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        console.log("Logged in with: ", user.email);
+        console.log("Register in with: ", user.email);
       })
       .catch((error) => {
         alert(error.message), setLoading(false);
@@ -77,12 +77,12 @@ export default function LoginScreen({ navigation }) {
         xmlns="http://www.w3.org/2000/svg"
         style={{ position: "absolute" }}
       >
-        <Path d="M43 131L0 0H420V288L340 189H138L43 131Z" fill="#F3F6F9" />
+        <Path d="M43 111L0 0H420V290L301 160H160L43 111Z" fill="#F3F6F9" />
       </Svg>
       {/* <KeyboardAvoidingView style={styles.container} behavior="padding"> */}
       <View style={styles.viewText}>
-        <Text style={styles.text}>Witaj ponownie!</Text>
-        <Text style={styles.text}>Zaloguj się</Text>
+        <Text style={styles.text}>Jesteś tu nowy?</Text>
+        <Text style={styles.text}>Zarejestruj się</Text>
       </View>
       <View style={styles.inputContainer}>
         <TextInput
@@ -114,15 +114,15 @@ export default function LoginScreen({ navigation }) {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleLogin} style={styles.button}>
-          <Text style={styles.buttonText}>Zaloguj się</Text>
+        <TouchableOpacity onPress={handleSignUp} style={styles.button}>
+          <Text style={styles.buttonText}>Zarejestruj się</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => promptAsync1()}
           style={[styles.buttonFacebook]}
         >
           <Image
-            source={require("../assets/logo/facebooklogo.png")}
+            source={require("../../assets/logo/facebooklogo.png")}
             style={styles.logo}
           />
           <Text style={styles.buttonFacebookText}>Zaloguj z Facebook</Text>
@@ -132,13 +132,13 @@ export default function LoginScreen({ navigation }) {
           style={styles.buttonGoogle}
         >
           <Image
-            source={require("../assets/logo/googlelogo.png")}
+            source={require("../../assets/logo/googlelogo.png")}
             style={styles.logo}
           />
           <Text style={styles.buttonGoogleText}>Zaloguj z Google</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Registration")}>
-          <Text style={styles.info}>Nie masz konta? Zarejestruj się</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <Text style={styles.info}>Masz konto? Zaloguj się</Text>
         </TouchableOpacity>
       </View>
       {loading && <FragmentLoading />}
