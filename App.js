@@ -3,15 +3,14 @@ import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import LoginScreen from "./screens/LoginScreen";
-import RegistrationScreen from "./screens/RegistrationScreen";
-import HomeScreen from "./screens/HomeScreen";
-import SettingsScreen from "./screens/SettingsScreen";
-import AllMatches from "./screens/AllMatches";
-import MatchScreen from "./screens/MatchScreen";
-import TypeScore from "./screens/TypeScore";
+import LoginScreen from "./screens/Start/LoginScreen";
+import RegistrationScreen from "./screens/Start/RegistrationScreen";
+import HomeScreen from "./screens/Home/HomeScreen";
+import SettingsScreen from "./screens/Settings/SettingsScreen";
+import AllMatches from "./screens/Matches/AllMatches";
+import MatchScreen from "./screens/Matches/MatchScreen";
 import TeamandPlayerWin from "./screens/TeamandPlayerWin";
-import Scoreboard from "./screens/Scoreboard";
+import Scoreboard from "./screens/Ratings/Scoreboard";
 import { auth, db } from "./components/firebase";
 import * as SplashScreen from "expo-splash-screen";
 import mainContext from "./components/mainContext";
@@ -201,6 +200,6 @@ const styles = StyleSheet.create({
     fontStyle: "normal",
     fontWeight: "600",
     alignItems: "center",
-    marginBottom: 4,
+    justifyContent: "center",
   },
 });
