@@ -10,7 +10,7 @@ import React, { useState, useEffect } from "react";
 import { auth, firestore, db } from "../../components/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import styles, { styles2 } from "./MatchScreen.style";
-import { TextInput } from "react-native-paper";
+import { TextInput, Snackbar } from "react-native-paper";
 import CountryFlag from "react-native-country-flag";
 import TypeScore from "./TypeScore";
 import FragmentLoading from "../../components/fragmentLoading";
@@ -31,6 +31,9 @@ export default function MatchScreen({ route }) {
   if (hours < 10) hours = "0" + hours;
   var min = new Date().getMinutes(); //Current Minutes
 
+  const [visibleSnackbar, setVisibleSnackbar] = useState(false);
+  const [textSnackbar, setTextSnackbar] = useState("");
+
   useEffect(() => {
     todoRef
       .get()
@@ -38,15 +41,15 @@ export default function MatchScreen({ route }) {
         if (doc.exists) {
           setTimeout(() => setMatch(doc.data()), 1500);
         } else {
-          console.log("No such document!");
+          setTextSnackbar("Nie znaleziono dokumentu"), setVisibleSnackbar(true);
         }
       })
       .catch((error) => {
-        console.log("Error getting document:", error);
+        setTextSnackbar("Poblem z dokumentem: " + error),
+          setVisibleSnackbar(true);
       });
   }, []);
 
-  //Zabezpieczyc ta funckje tak zeby sprawdzal najpierw jaka jest godzina a potem dopeiro aktualizowal wynik
   const typeScore = (id) => {
     if (
       month + "." + day <
@@ -61,7 +64,7 @@ export default function MatchScreen({ route }) {
               )
             : match.hour))
     ) {
-      if (team1 !== "" && team2 !== "") {
+      if (team1 !== "" && team2 !== "" && team1 >= 0 && team2 >= 0) {
         auth.onAuthStateChanged((user) => {
           if (user) {
             getDoc(doc(db, "types", user.uid)).then((docSnap) => {
@@ -80,11 +83,19 @@ export default function MatchScreen({ route }) {
                   .doc(id)
                   .set({ type: team1 + ":" + team2, points: 0 });
               }
+              setTextSnackbar("Obstawiłeś mecz poprawnie"),
+                setVisibleSnackbar(true);
             });
           }
         });
+      } else {
+        setTextSnackbar("Niepoprawne wartości w polach"),
+          setVisibleSnackbar(true);
       }
-    } else console.log("po czasie");
+    } else {
+      setTextSnackbar("Minął czas na obstawianie tego meczu"),
+        setVisibleSnackbar(true);
+    }
   };
 
   useEffect(() => {
@@ -129,19 +140,23 @@ export default function MatchScreen({ route }) {
             <View style={styles.countryFlag}>
               {match.club1id &&
               (match.club1id == "en" || match.club1id == "wl") ? (
-                <Image
-                  source={
-                    match.club1id == "en"
-                      ? require("../../assets/england.png")
-                      : require("../../assets/wales.png")
-                  }
-                  style={{ width: 64, height: 40 }}
-                />
+                <View style={styles.shadow}>
+                  <Image
+                    source={
+                      match.club1id == "en"
+                        ? require("../../assets/england.png")
+                        : require("../../assets/wales.png")
+                    }
+                    style={{ width: 64, height: 40 }}
+                  />
+                </View>
               ) : (
-                <CountryFlag
-                  isoCode={match.club1id ? match.club1id : ""}
-                  size={40}
-                />
+                <View style={styles.shadow}>
+                  <CountryFlag
+                    isoCode={match.club1id ? match.club1id : ""}
+                    size={40}
+                  />
+                </View>
               )}
               <View style={styles.viewCountry}>
                 <Text style={styles.country}>{match.club1}</Text>
@@ -155,19 +170,23 @@ export default function MatchScreen({ route }) {
             <View style={styles.countryFlag}>
               {match.club2id &&
               (match.club2id == "en" || match.club2id == "wl") ? (
-                <Image
-                  source={
-                    match.club2id == "en"
-                      ? require("../../assets/england.png")
-                      : require("../../assets/wales.png")
-                  }
-                  style={{ width: 64, height: 40 }}
-                />
+                <View style={styles.shadow}>
+                  <Image
+                    source={
+                      match.club2id == "en"
+                        ? require("../../assets/england.png")
+                        : require("../../assets/wales.png")
+                    }
+                    style={{ width: 64, height: 40 }}
+                  />
+                </View>
               ) : (
-                <CountryFlag
-                  isoCode={match.club2id ? match.club2id : ""}
-                  size={40}
-                />
+                <View style={styles.shadow}>
+                  <CountryFlag
+                    isoCode={match.club2id ? match.club2id : ""}
+                    size={40}
+                  />
+                </View>
               )}
               <View style={styles.viewCountry}>
                 <Text style={styles.country}>{match.club2}</Text>
@@ -213,6 +232,14 @@ export default function MatchScreen({ route }) {
       ) : (
         <View></View>
       )}
+      <Snackbar
+        visible={visibleSnackbar}
+        onDismiss={() => setVisibleSnackbar(false)}
+        duration={Snackbar.DURATION_SHORT}
+        style={styles.snackbar}
+      >
+        {textSnackbar}
+      </Snackbar>
       {/* POPUP  */}
       <Modal
         visible={visible}

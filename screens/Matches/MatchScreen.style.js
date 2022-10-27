@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   button: {
     width: "64%",
     backgroundColor: "#0D4A85",
-    height: 40,
+    height: 48,
     borderRadius: 64,
     justifyContent: "center",
     alignItems: "center",
@@ -104,8 +104,11 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 3,
+      height: 4,
     },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
   },
   textButton: {
     fontFamily: "Work-Sans",
@@ -115,6 +118,18 @@ const styles = StyleSheet.create({
     letterSpacing: 0.4,
     color: "#FFFFFF",
     marginRight: 12,
+  },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    elevation: 8,
+    borderWidth: 0.1,
+  },
+  snackbar: {
+    backgroundColor: "#0D4A85",
   },
 });
 
