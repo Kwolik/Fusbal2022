@@ -5,11 +5,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFFF",
   },
-  photo: {
-    width: "100%",
-    height: "58%",
-    //flex: 1
-  },
   viewText: {
     marginTop: 80,
     marginLeft: 70,
@@ -27,14 +22,14 @@ const styles = StyleSheet.create({
     lineHeight: 32,
   },
   inputContainer: {
-    marginTop: "11%",
+    marginTop: "10%",
     justifyContent: "center",
     alignItems: "center",
   },
   input: {
     width: "54%",
     height: 56,
-    marginBottom: 32,
+    marginBottom: 24,
     backgroundColor: "#FFFFFF",
     justifyContent: "center",
   },
@@ -96,7 +91,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     width: "54%",
     height: 42,
-    marginTop: "8%",
+    marginTop: "6%",
     flexDirection: "row",
     //Shadow przycisku
     shadowColor: "#000",
@@ -123,6 +118,9 @@ const styles = StyleSheet.create({
     fontStyle: "normal",
     color: "#0D4A85",
     letterSpacing: 0.17,
+  },
+  snackbar: {
+    backgroundColor: "#0D4A85",
   },
 });
 

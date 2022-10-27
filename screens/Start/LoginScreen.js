@@ -1,10 +1,4 @@
-import {
-  View,
-  KeyboardAvoidingView,
-  TouchableOpacity,
-  Text,
-  Image,
-} from "react-native";
+import { View, TouchableOpacity, Text, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import styles from "./Login.styles";
 import { auth } from "../../components/firebase.js";
@@ -17,7 +11,7 @@ import {
   signInWithCredential,
 } from "firebase/auth";
 import FragmentLoading from "../../components/fragmentLoading.js";
-import { TextInput } from "react-native-paper";
+import { TextInput, Snackbar } from "react-native-paper";
 import Svg, { Path } from "react-native-svg";
 
 export default function LoginScreen({ navigation }) {
@@ -25,6 +19,8 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [visibility, setVisibility] = useState(true);
+  const [visibleSnackbar, setVisibleSnackbar] = useState(false);
+  const [textSnackbar, setTextSnackbar] = useState("");
 
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId:
@@ -41,10 +37,11 @@ export default function LoginScreen({ navigation }) {
       .signInWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        console.log("Logged in with: ", user.email);
       })
       .catch((error) => {
-        alert(error.message), setLoading(false);
+        setTextSnackbar("Poblem z zalogowaniem: " + error.message),
+          setVisibleSnackbar(true),
+          setLoading(false);
       });
   };
 
@@ -56,6 +53,9 @@ export default function LoginScreen({ navigation }) {
       const auth = getAuth();
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential);
+    } else {
+      setTextSnackbar("Poblem z zalogowaniem poprzez konto google"),
+        setVisibleSnackbar(true);
     }
 
     if (response1?.type === "success") {
@@ -65,6 +65,9 @@ export default function LoginScreen({ navigation }) {
         response1.authentication.accessToken
       );
       signInWithCredential(auth, credential);
+    } else {
+      setTextSnackbar("Poblem z zalogowaniem poprzez konto facebook"),
+        setVisibleSnackbar(true);
     }
   }, [response, response1]);
 
@@ -72,14 +75,13 @@ export default function LoginScreen({ navigation }) {
     <View style={styles.container}>
       <Svg
         width="100%"
-        height={210}
+        height={288}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         style={{ position: "absolute" }}
       >
         <Path d="M43 111L0 0H420V290L301 160H160L43 111Z" fill="#F3F6F9" />
       </Svg>
-      {/* <KeyboardAvoidingView style={styles.container} behavior="padding"> */}
       <View style={styles.viewText}>
         <Text style={styles.text}>Witaj ponownie!</Text>
         <Text style={styles.text}>Zaloguj się</Text>
@@ -140,9 +142,16 @@ export default function LoginScreen({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate("Registration")}>
           <Text style={styles.info}>Nie masz konta? Zarejestruj się</Text>
         </TouchableOpacity>
+        <Snackbar
+          visible={visibleSnackbar}
+          onDismiss={() => setVisibleSnackbar(false)}
+          duration={Snackbar.DURATION_SHORT}
+          style={styles.snackbar}
+        >
+          {textSnackbar}
+        </Snackbar>
       </View>
       {loading && <FragmentLoading />}
-      {/* </KeyboardAvoidingView> */}
     </View>
   );
 }
