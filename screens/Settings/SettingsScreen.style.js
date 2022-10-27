@@ -85,12 +85,11 @@ const styles = StyleSheet.create({
   infoType: {
     flexDirection: "row",
     width: "80%",
-    marginTop: "1%",
     alignItems: "center",
   },
   penScore: {
-    width: 10,
-    height: 10,
+    width: 12,
+    height: 12,
     tintColor: "rgba(0, 0, 0, 0.54)",
   },
   editScore: {
@@ -98,7 +97,7 @@ const styles = StyleSheet.create({
     fontStyle: "normal",
     fontWeight: "400",
     letterSpacing: 0.15,
-    fontSize: 10,
+    fontSize: 12,
     color: "rgba(97, 97, 97, 0.9)",
     marginLeft: 6,
   },
@@ -126,8 +125,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   editButton: {
-    height: 40,
-    width: 180,
+    height: 48,
+    width: 200,
     flexDirection: "row",
     backgroundColor: "#1976D2",
     borderRadius: 120,
@@ -159,7 +158,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.17,
     fontSize: 13,
     color: "#0D4A85",
-    marginTop: "2%",
+    marginTop: "1%",
   },
   containerPopup: {
     flex: 1,
@@ -200,11 +199,22 @@ const styles = StyleSheet.create({
     marginLeft: 24,
     marginBottom: 8,
   },
+  popupMistrz: {
+    width: "80%",
+    height: 56,
+    backgroundColor: "#FFFFFF",
+    justifyContent: "center",
+    marginLeft: 24,
+    marginBottom: 8,
+  },
   popupText: {
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
     marginTop: 8,
+    position: "absolute",
+    right: 0,
+    bottom: 8,
   },
   popupAnuluj: {
     fontFamily: "Work-Sans",
@@ -223,6 +233,9 @@ const styles = StyleSheet.create({
     color: "#0D4A85",
     marginLeft: 24,
     marginRight: 16,
+  },
+  snackbar: {
+    backgroundColor: "#0D4A85",
   },
 });
 

@@ -11,7 +11,7 @@ import React, { useState, useEffect, useContext } from "react";
 import styles from "./SettingsScreen.style";
 import Svg, { Path } from "react-native-svg";
 import { auth, firestore } from "../../components/firebase";
-import { TextInput, List, Avatar } from "react-native-paper";
+import { TextInput, List, Avatar, Snackbar } from "react-native-paper";
 import OneScoreMatch from "../OneScoreMatch";
 import * as ImagePicker from "expo-image-picker";
 import { TeamList } from "../../components/TeamList";
@@ -30,7 +30,9 @@ export default function SettingsScreen({ navigation }) {
   const [codeTeam, setCodeTeam] = useState("");
   const [nameUser, setNameUser] = useState("");
   const [nick, setNick] = useState("");
-
+  const [val, setVal] = useState(false);
+  const [visibleSnackbar, setVisibleSnackbar] = useState(false);
+  const [textSnackbar, setTextSnackbar] = useState("");
   const [visible, setVisible] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -75,15 +77,18 @@ export default function SettingsScreen({ navigation }) {
               doc.data().nick && setNick(doc.data().nick);
               setTimeout(
                 () => doc.data().photo && setPhoto(doc.data().photo),
-                1500
+                1000
               );
               doc.data().points && setPoints(doc.data().points);
+              setTimeout(() => setVal(true), 200);
             } else {
-              console.log("No such document!");
+              setTextSnackbar("Nie znaleziono dokumentu"),
+                setVisibleSnackbar(true);
             }
           })
           .catch((error) => {
-            console.log("Error getting document:", error);
+            setTextSnackbar("Poblem z dokumentem: " + error),
+              setVisibleSnackbar(true);
           });
       }
     });
@@ -103,11 +108,13 @@ export default function SettingsScreen({ navigation }) {
             if (doc.exists) {
               setFootballer(doc.data().name);
             } else {
-              console.log("No such document!");
+              setTextSnackbar("Nie znaleziono dokumentu"),
+                setVisibleSnackbar(true);
             }
           })
           .catch((error) => {
-            console.log("Error getting document:", error);
+            setTextSnackbar("Poblem z dokumentem: " + error),
+              setVisibleSnackbar(true);
           });
 
         docRef2
@@ -116,11 +123,13 @@ export default function SettingsScreen({ navigation }) {
             if (doc.exists) {
               setTeam(doc.data().team);
             } else {
-              console.log("No such document!");
+              setTextSnackbar("Nie znaleziono dokumentu"),
+                setVisibleSnackbar(true);
             }
           })
           .catch((error) => {
-            console.log("Error getting document:", error);
+            setTextSnackbar("Poblem z dokumentem: " + error),
+              setVisibleSnackbar(true);
           });
       }
     });
@@ -164,8 +173,16 @@ export default function SettingsScreen({ navigation }) {
         .doc(id)
         .update({
           photo: base,
-        }) //Poprawic catch pozniej
-        .catch((error) => alert("Zbyt duze zdj zmniejsz je!"));
+        })
+        .catch(
+          (error) => (
+            setTextSnackbar("Problem z rozmiarem zdj: " + error),
+            setVisibleSnackbar(true)
+          )
+        );
+    } else {
+      setTextSnackbar("Problem z zdjęciem. Spróbuj jeszcze raz"),
+        setVisibleSnackbar(true);
     }
   };
 
@@ -184,9 +201,9 @@ export default function SettingsScreen({ navigation }) {
           }
         })
         .catch((error) => {
-          console.log("Error getting document:", error);
+          setTextSnackbar("Poblem z dokumentem: " + error),
+            setVisibleSnackbar(true);
         });
-      console.log(team);
       docRef2
         .get()
         .then((doc) => {
@@ -197,8 +214,14 @@ export default function SettingsScreen({ navigation }) {
           }
         })
         .catch((error) => {
-          console.log("Error getting document:", error);
+          setTextSnackbar("Poblem z dokumentem: " + error),
+            setVisibleSnackbar(true);
         });
+
+      setTextSnackbar("Twoje typy zostały zapisane"), setVisibleSnackbar(true);
+    } else {
+      setTextSnackbar("Niepoprawne wartości w polach"),
+        setVisibleSnackbar(true);
     }
   };
 
@@ -206,10 +229,15 @@ export default function SettingsScreen({ navigation }) {
     if (nick && nameUser) {
       firestore.collection("users").doc(id).update({ name: nameUser });
       firestore.collection("users").doc(id).update({ nick: nick });
+
+      setTextSnackbar("Twoje dane zostały zmienione"), setVisibleSnackbar(true);
+    } else {
+      setTextSnackbar("Niepoprawne wartości w polach"),
+        setVisibleSnackbar(true);
     }
   };
 
-  return photo ? (
+  return id && val ? (
     <View style={styles.container}>
       <Svg
         width="100%"
@@ -273,24 +301,28 @@ export default function SettingsScreen({ navigation }) {
         ) : (
           <View></View>
         )}
-        <Text style={styles.title}>Obstawione mecze</Text>
+        {matches && matches[0] && (
+          <Text style={styles.title}>Obstawione mecze</Text>
+        )}
       </View>
-      <View style={styles.list}>
-        <View style={styles.flatlist}>
-          <FlatList
-            data={matches}
-            numColumns={1}
-            renderItem={({ item }) => (
-              <OneScoreMatch
-                id={item.id}
-                navigation={navigation}
-                type={item.type}
-                points={item.points}
-              />
-            )}
-          />
+      {matches && matches[0] && (
+        <View style={styles.list}>
+          <View style={styles.flatlist}>
+            <FlatList
+              data={matches}
+              numColumns={1}
+              renderItem={({ item }) => (
+                <OneScoreMatch
+                  id={item.id}
+                  navigation={navigation}
+                  type={item.type}
+                  points={item.points}
+                />
+              )}
+            />
+          </View>
         </View>
-      </View>
+      )}
       <View style={styles.buttons}>
         <TouchableOpacity
           style={styles.editButton}
@@ -302,6 +334,14 @@ export default function SettingsScreen({ navigation }) {
         <TouchableOpacity onPress={() => signOutUser()}>
           <Text style={styles.logout}>Wyloguj się</Text>
         </TouchableOpacity>
+        <Snackbar
+          visible={visibleSnackbar}
+          onDismiss={() => setVisibleSnackbar(false)}
+          duration={Snackbar.DURATION_SHORT}
+          style={styles.snackbar}
+        >
+          {textSnackbar}
+        </Snackbar>
       </View>
       {/* POPUP 1 */}
       <Modal
@@ -313,17 +353,37 @@ export default function SettingsScreen({ navigation }) {
         <View style={styles.containerPopup}>
           <View style={styles.popup}>
             <Text style={styles.popupTitle}>Edytuj obstawianie</Text>
+            <View style={styles.popupText}>
+              <TouchableOpacity onPress={() => setVisible(false)}>
+                <Text style={styles.popupAnuluj}>ANULUJ</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setVisible(false), addTypes();
+                }}
+              >
+                <Text style={styles.popupEdytuj}>EDYTUJ</Text>
+              </TouchableOpacity>
+            </View>
+            <TextInput
+              label="Król Strzelców"
+              mode="outlined"
+              outlineColor="rgba(0, 0, 0, 0.23)"
+              value={footballer}
+              onChangeText={(text) => setFootballer(text)}
+              style={styles.popupInput}
+            />
             <TextInput
               label="Mistrz"
               mode="outlined"
               value="dupa"
               outlineColor="rgba(0, 0, 0, 0.23)"
-              style={styles.popupInput}
+              style={styles.popupMistrz}
               render={() => (
                 <List.Section
                   style={{
-                    width: "92%",
-                    marginLeft: 8,
+                    width: "98%",
+                    marginLeft: 2,
                   }}
                 >
                   <List.Accordion
@@ -336,11 +396,10 @@ export default function SettingsScreen({ navigation }) {
                   >
                     <ScrollView
                       style={{
-                        height: 80,
-                        width: "80%",
+                        height: 120,
+                        width: "100%",
                         position: "absolute",
-                        backgroundColor: "grey",
-                        marginBottom: 32,
+                        backgroundColor: "#FFFFFF",
                       }}
                     >
                       {TeamList.map((team, index) => (
@@ -359,26 +418,6 @@ export default function SettingsScreen({ navigation }) {
                 </List.Section>
               )}
             />
-            <TextInput
-              label="Król Strzelców"
-              mode="outlined"
-              outlineColor="rgba(0, 0, 0, 0.23)"
-              value={footballer}
-              onChangeText={(text) => setFootballer(text)}
-              style={styles.popupInput}
-            />
-            <View style={styles.popupText}>
-              <TouchableOpacity onPress={() => setVisible(false)}>
-                <Text style={styles.popupAnuluj}>ANULUJ</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  setVisible(false), addTypes();
-                }}
-              >
-                <Text style={styles.popupEdytuj}>EDYTUJ</Text>
-              </TouchableOpacity>
-            </View>
           </View>
         </View>
       </Modal>
