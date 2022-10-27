@@ -22,20 +22,23 @@ export default function OneRowMatch(props) {
               </Text>
               {props.club1id &&
               (props.club1id == "en" || props.club1id == "wl") ? (
-                <Image
-                  source={
-                    props.club1id == "en"
-                      ? require("../assets/england.png")
-                      : require("../assets/wales.png")
-                  }
-                  style={{ width: 32, height: 22, marginRight: 4 }}
-                />
+                <View style={styles.shadow}>
+                  <Image
+                    source={
+                      props.club1id == "en"
+                        ? require("../assets/england.png")
+                        : require("../assets/wales.png")
+                    }
+                    style={{ width: 32, height: 22 }}
+                  />
+                </View>
               ) : (
-                <CountryFlag
-                  isoCode={props.club1id ? props.club1id : ""}
-                  size={20}
-                  style={{ marginRight: 4 }}
-                />
+                <View style={styles.shadow}>
+                  <CountryFlag
+                    isoCode={props.club1id ? props.club1id : ""}
+                    size={20}
+                  />
+                </View>
               )}
             </View>
             <Text style={styles.result}>
@@ -44,26 +47,26 @@ export default function OneRowMatch(props) {
             <View style={styles.clubRight}>
               {props.club2id &&
               (props.club2id == "en" || props.club2id == "wl") ? (
-                <Image
-                  source={
-                    props.club2id == "en"
-                      ? require("../assets/england.png")
-                      : require("../assets/wales.png")
-                  }
-                  style={{
-                    width: 32,
-                    height: 22,
-                    marginRight: 4,
-                  }}
-                />
+                <View style={styles.shadow}>
+                  <Image
+                    source={
+                      props.club2id == "en"
+                        ? require("../assets/england.png")
+                        : require("../assets/wales.png")
+                    }
+                    style={{
+                      width: 32,
+                      height: 22,
+                    }}
+                  />
+                </View>
               ) : (
-                <CountryFlag
-                  isoCode={props.club2id ? props.club2id : ""}
-                  size={20}
-                  style={{
-                    marginRight: 4,
-                  }}
-                />
+                <View style={styles.shadow}>
+                  <CountryFlag
+                    isoCode={props.club2id ? props.club2id : ""}
+                    size={20}
+                  />
+                </View>
               )}
               <Text style={[styles.country, styles.countryLeft]}>
                 {props.club2}

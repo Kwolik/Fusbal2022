@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: "#FFFFFF",
     borderRadius: 8,
     marginBottom: 12,
     height: 48,
@@ -15,8 +15,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   clubLeft: {
-    // borderColor: "red",
-    // borderWidth: 2,
     width: "38%",
     flexDirection: "row",
     alignItems: "center",
@@ -24,8 +22,6 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   clubRight: {
-    // borderColor: "red",
-    // borderWidth: 2,
     width: "38%",
     flexDirection: "row",
     alignItems: "center",
@@ -40,8 +36,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0.17,
     color: "rgba(0, 0, 0, 0.87)",
     width: "67%",
-    // borderColor: "red",
-    // borderWidth: 2,
   },
   countryRight: {
     textAlign: "right",
@@ -62,18 +56,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     width: "10%",
     padding: 2,
-    // borderColor: "red",
-    // borderWidth: 2,
   },
   info: {
     justifyContent: "center",
     alignItems: "center",
-    //marginLeft: 20,
-    //marginRight: 8,
     padding: 2,
     marginLeft: 4,
-    // borderColor: "red",
-    // borderWidth: 2,
   },
   date: {
     fontFamily: "Work-Sans",
@@ -90,6 +78,15 @@ const styles = StyleSheet.create({
     fontSize: 12,
     letterSpacing: 0.15,
     color: "rgba(97, 97, 97, 0.9)",
+  },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    elevation: 2,
+    borderWidth: 0.01,
   },
 });
 
