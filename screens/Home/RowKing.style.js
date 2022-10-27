@@ -35,6 +35,15 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginLeft: -8,
   },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    elevation: 2,
+    borderWidth: 0.01,
+  },
 });
 
 export default styles;

@@ -36,16 +36,20 @@ export default function RowKing() {
       <View style={styles.container} key={index}>
         <View style={styles.country}>
           {item.code == "en" || item.code == "wl" ? (
-            <Image
-              source={
-                true
-                  ? require("../../assets/england.png")
-                  : require("../../assets/wales.png")
-              }
-              style={{ width: 32, height: 24, marginRight: 4 }}
-            />
+            <View style={styles.shadow}>
+              <Image
+                source={
+                  true
+                    ? require("../../assets/england.png")
+                    : require("../../assets/wales.png")
+                }
+                style={{ width: 32, height: 24, marginRight: 4 }}
+              />
+            </View>
           ) : (
-            <CountryFlag isoCode={item.code} size={20} />
+            <View style={styles.shadow}>
+              <CountryFlag isoCode={item.code} size={20} />
+            </View>
           )}
           <Text style={styles.nameCountry}>{item.team}</Text>
         </View>
@@ -62,7 +66,12 @@ export default function RowKing() {
                   }}
                 />
               ) : (
-                <Avatar.Text size={32} label={"K"} />
+                <Avatar.Text
+                  key={index}
+                  size={32}
+                  label={"K"}
+                  style={{ marginLeft: -8 }}
+                />
               ))
           )}
         </View>

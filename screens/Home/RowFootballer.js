@@ -46,7 +46,12 @@ export default function RowFootballer() {
                   }}
                 />
               ) : (
-                <Avatar.Text size={32} label={"K"} />
+                <Avatar.Text
+                  key={index}
+                  size={32}
+                  label={"K"}
+                  style={{ marginLeft: -8 }}
+                />
               ))
           )}
         </View>
