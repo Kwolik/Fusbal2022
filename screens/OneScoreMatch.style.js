@@ -97,6 +97,15 @@ const styles = StyleSheet.create({
     letterSpacing: 0.17,
     color: "rgba(0, 0, 0, 0.87)",
   },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    elevation: 2,
+    borderWidth: 0.01,
+  },
 });
 
 export default styles;

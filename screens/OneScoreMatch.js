@@ -38,46 +38,49 @@ export default function OneScoreMatch(props) {
             </Text>
             {match.club1id &&
             (match.club1id == "en" || match.club1id == "wl") ? (
-              <Image
-                source={
-                  match.club1id == "en"
-                    ? require("../assets/england.png")
-                    : require("../assets/wales.png")
-                }
-                style={{ width: 32, height: 24, marginRight: 4 }}
-              />
+              <View style={styles.shadow}>
+                <Image
+                  source={
+                    match.club1id == "en"
+                      ? require("../assets/england.png")
+                      : require("../assets/wales.png")
+                  }
+                  style={{ width: 32, height: 24 }}
+                />
+              </View>
             ) : (
-              <CountryFlag
-                isoCode={match.club1id ? match.club1id : ""}
-                size={20}
-                style={{ marginRight: 4 }}
-              />
+              <View style={styles.shadow}>
+                <CountryFlag
+                  isoCode={match.club1id ? match.club1id : ""}
+                  size={20}
+                />
+              </View>
             )}
           </View>
           <Text style={styles.result}>{match.result ? match.result : "-"}</Text>
           <View style={styles.clubRight}>
             {match.club2id &&
             (match.club2id == "en" || match.club2id == "wl") ? (
-              <Image
-                source={
-                  match.club2id == "en"
-                    ? require("../assets/england.png")
-                    : require("../assets/wales.png")
-                }
-                style={{
-                  width: 32,
-                  height: 22,
-                  marginRight: 4,
-                }}
-              />
+              <View style={styles.shadow}>
+                <Image
+                  source={
+                    match.club2id == "en"
+                      ? require("../assets/england.png")
+                      : require("../assets/wales.png")
+                  }
+                  style={{
+                    width: 32,
+                    height: 22,
+                  }}
+                />
+              </View>
             ) : (
-              <CountryFlag
-                isoCode={match.club2id ? match.club2id : ""}
-                size={20}
-                style={{
-                  marginRight: 4,
-                }}
-              />
+              <View style={styles.shadow}>
+                <CountryFlag
+                  isoCode={match.club2id ? match.club2id : ""}
+                  size={20}
+                />
+              </View>
             )}
             <Text style={[styles.country, styles.countryLeft]}>
               {match.club2}
