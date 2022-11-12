@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Text, Image } from "react-native";
+import { View, TouchableOpacity, Text, Image, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import styles from "./Login.styles";
 import { auth } from "../../components/firebase.js";
@@ -73,6 +73,12 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <StatusBar
+        animated={true}
+        backgroundColor="#F3F6F9"
+        color="black"
+        barStyle="light-content"
+      />
       <Svg
         width="100%"
         height={288}
@@ -142,16 +148,16 @@ export default function LoginScreen({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate("Registration")}>
           <Text style={styles.info}>Nie masz konta? Zarejestruj się</Text>
         </TouchableOpacity>
-        <Snackbar
-          visible={visibleSnackbar}
-          onDismiss={() => setVisibleSnackbar(false)}
-          duration={Snackbar.DURATION_SHORT}
-          style={styles.snackbar}
-        >
-          {textSnackbar}
-        </Snackbar>
       </View>
       {loading && <FragmentLoading />}
+      <Snackbar
+        visible={visibleSnackbar}
+        onDismiss={() => setVisibleSnackbar(false)}
+        duration={Snackbar.DURATION_SHORT}
+        style={styles.snackbar}
+      >
+        {textSnackbar}
+      </Snackbar>
     </View>
   );
 }

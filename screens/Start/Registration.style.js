@@ -124,6 +124,9 @@ const styles = StyleSheet.create({
     color: "#0D4A85",
     letterSpacing: 0.17,
   },
+  snackbar: {
+    backgroundColor: "#0D4A85",
+  },
 });
 
 export default styles;

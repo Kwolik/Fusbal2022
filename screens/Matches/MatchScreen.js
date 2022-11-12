@@ -14,6 +14,7 @@ import { TextInput, Snackbar } from "react-native-paper";
 import CountryFlag from "react-native-country-flag";
 import TypeScore from "./TypeScore";
 import FragmentLoading from "../../components/fragmentLoading";
+import FontAwesome from "react-native-vector-icons/MaterialIcons";
 
 export default function MatchScreen({ route }) {
   const [match, setMatch] = useState();
@@ -21,6 +22,7 @@ export default function MatchScreen({ route }) {
   const [team2, setTeam2] = useState("");
   const [types, setTypes] = useState();
   const [visible, setVisible] = useState(false);
+  const [draw, setDraw] = useState(0);
   const todoRef = firestore.collection("matches").doc(route.params.id);
   const todoRef2 = firestore.collection("users").orderBy("nick");
   var date = new Date().toTimeString();
@@ -74,14 +76,22 @@ export default function MatchScreen({ route }) {
                   .doc(user.uid)
                   .collection("types")
                   .doc(id)
-                  .update({ type: team1 + ":" + team2, points: 0 });
+                  .update({
+                    type: team1 + ":" + team2,
+                    points: 0,
+                    winner: match.typeMatch == 1 && team1 == team2 ? draw : "",
+                  });
               } else {
                 firestore
                   .collection("users")
                   .doc(user.uid)
                   .collection("types")
                   .doc(id)
-                  .set({ type: team1 + ":" + team2, points: 0 });
+                  .set({
+                    type: team1 + ":" + team2,
+                    points: 0,
+                    winner: match.typeMatch == 1 && team1 == team2 ? draw : "",
+                  });
               }
               setTextSnackbar("Obstawiłeś mecz poprawnie"),
                 setVisibleSnackbar(true);
@@ -250,27 +260,52 @@ export default function MatchScreen({ route }) {
         <View style={styles2.container}>
           <View style={styles2.popup}>
             <Text style={styles2.desc}>Obstaw wynik meczu</Text>
+            {team1 == team2 &&
+              team1 != "" &&
+              team2 != "" &&
+              match.typeMatch == 1 && (
+                <Text style={styles2.desc2}>
+                  Która drużyna przejdzie dalej?
+                </Text>
+              )}
             <View style={styles2.meetInfo}>
               <View style={styles2.countryFlag}>
-                {match.club1id &&
-                (match.club1id == "en" || match.club1id == "wl") ? (
-                  <Image
-                    source={
-                      match.club1id == "en"
-                        ? require("../../assets/england.png")
-                        : require("../../assets/wales.png")
-                    }
-                    style={{ width: 64, height: 40 }}
-                  />
-                ) : (
-                  <CountryFlag
-                    isoCode={match.club1id ? match.club1id : ""}
-                    size={40}
-                  />
-                )}
-                <View style={styles2.viewCountry}>
-                  <Text style={styles2.country}>{match.club1}</Text>
-                </View>
+                <TouchableOpacity
+                  style={styles2.teamone}
+                  onPress={() => setDraw(0)}
+                >
+                  {match.club1id &&
+                  (match.club1id == "en" || match.club1id == "wl") ? (
+                    <Image
+                      source={
+                        match.club1id == "en"
+                          ? require("../../assets/england.png")
+                          : require("../../assets/wales.png")
+                      }
+                      style={{
+                        width: 64,
+                        height: 40,
+                      }}
+                    />
+                  ) : (
+                    <CountryFlag
+                      isoCode={match.club1id ? match.club1id : ""}
+                      size={40}
+                    />
+                  )}
+                  <View style={styles2.icon}>
+                    {team1 == team2 &&
+                      team1 != "" &&
+                      team2 != "" &&
+                      draw == 0 &&
+                      match.typeMatch == 1 && (
+                        <FontAwesome name="check" color={"green"} size={32} />
+                      )}
+                  </View>
+                  <View style={styles2.viewCountry}>
+                    <Text style={styles2.country}>{match.club1}</Text>
+                  </View>
+                </TouchableOpacity>
                 <TextInput
                   mode="outlined"
                   placeholder="0"
@@ -285,25 +320,39 @@ export default function MatchScreen({ route }) {
                 <Text style={styles2.score}>-</Text>
               </View>
               <View style={styles2.countryFlag}>
-                {match.club2id &&
-                (match.club2id == "en" || match.club2id == "wl") ? (
-                  <Image
-                    source={
-                      match.club2id == "en"
-                        ? require("../../assets/england.png")
-                        : require("../../assets/wales.png")
-                    }
-                    style={{ width: 64, height: 40 }}
-                  />
-                ) : (
-                  <CountryFlag
-                    isoCode={match.club2id ? match.club2id : ""}
-                    size={40}
-                  />
-                )}
-                <View style={styles2.viewCountry}>
-                  <Text style={styles2.country}>{match.club2}</Text>
-                </View>
+                <TouchableOpacity
+                  style={styles2.teamone}
+                  onPress={() => setDraw(1)}
+                >
+                  {match.club2id &&
+                  (match.club2id == "en" || match.club2id == "wl") ? (
+                    <Image
+                      source={
+                        match.club2id == "en"
+                          ? require("../../assets/england.png")
+                          : require("../../assets/wales.png")
+                      }
+                      style={{ width: 64, height: 40 }}
+                    />
+                  ) : (
+                    <CountryFlag
+                      isoCode={match.club2id ? match.club2id : ""}
+                      size={40}
+                    />
+                  )}
+                  <View style={styles2.icon}>
+                    {team1 == team2 &&
+                      team1 != "" &&
+                      team2 != "" &&
+                      draw == 1 &&
+                      match.typeMatch == 1 && (
+                        <FontAwesome name="check" color={"green"} size={32} />
+                      )}
+                  </View>
+                  <View style={styles2.viewCountry}>
+                    <Text style={styles2.country}>{match.club2}</Text>
+                  </View>
+                </TouchableOpacity>
                 <TextInput
                   mode="outlined"
                   placeholder="0"

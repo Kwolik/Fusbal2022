@@ -334,15 +334,15 @@ export default function SettingsScreen({ navigation }) {
         <TouchableOpacity onPress={() => signOutUser()}>
           <Text style={styles.logout}>Wyloguj się</Text>
         </TouchableOpacity>
-        <Snackbar
-          visible={visibleSnackbar}
-          onDismiss={() => setVisibleSnackbar(false)}
-          duration={Snackbar.DURATION_SHORT}
-          style={styles.snackbar}
-        >
-          {textSnackbar}
-        </Snackbar>
       </View>
+      <Snackbar
+        visible={visibleSnackbar}
+        onDismiss={() => setVisibleSnackbar(false)}
+        duration={Snackbar.DURATION_SHORT}
+        style={styles.snackbar}
+      >
+        {textSnackbar}
+      </Snackbar>
       {/* POPUP 1 */}
       <Modal
         visible={visible}

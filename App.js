@@ -9,7 +9,6 @@ import HomeScreen from "./screens/Home/HomeScreen";
 import SettingsScreen from "./screens/Settings/SettingsScreen";
 import AllMatches from "./screens/Matches/AllMatches";
 import MatchScreen from "./screens/Matches/MatchScreen";
-import TeamandPlayerWin from "./screens/TeamandPlayerWin";
 import Scoreboard from "./screens/Ratings/Scoreboard";
 import { auth, db } from "./components/firebase";
 import * as SplashScreen from "expo-splash-screen";
@@ -55,6 +54,7 @@ export default function App() {
               nick: "",
               email: user.email,
               photo: user.photoURL,
+              points: "0",
             });
           }
         });
@@ -85,7 +85,7 @@ export default function App() {
             >
               <Tab.Screen
                 name="Home"
-                component={HomeScreen}
+                component={HomeStackScreen}
                 options={{
                   tabBarLabel: "Home",
                   tabBarLabelStyle: styles.label,
@@ -140,7 +140,7 @@ export default function App() {
               />
               <Tab.Screen
                 name="Settings"
-                component={SettingsScreen}
+                component={SettingstackScreen}
                 options={{
                   tabBarLabel: "Moje konto",
                   tabBarLabelStyle: styles.label,
@@ -177,20 +177,49 @@ export default function App() {
   );
 }
 
-const MatchStack = createNativeStackNavigator();
-const MatchStackScreen = () => (
-  <MatchStack.Navigator headerMode={"none"}>
-    <MatchStack.Screen
-      name={"AllMatches"}
-      component={AllMatches}
+const HomeStackScreen = () => (
+  <Stack.Navigator headerMode={"none"}>
+    <Stack.Screen
+      name={"HomeScreen"}
+      component={HomeScreen}
       options={{ headerShown: false }}
     />
-    <MatchStack.Screen
+    <Stack.Screen
       name={"MatchScreen"}
       component={MatchScreen}
       options={{ headerShown: false }}
     />
-  </MatchStack.Navigator>
+  </Stack.Navigator>
+);
+
+const MatchStackScreen = () => (
+  <Stack.Navigator headerMode={"none"}>
+    <Stack.Screen
+      name={"AllMatch"}
+      component={AllMatches}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name={"MatchScreen"}
+      component={MatchScreen}
+      options={{ headerShown: false }}
+    />
+  </Stack.Navigator>
+);
+
+const SettingstackScreen = () => (
+  <Stack.Navigator headerMode={"none"}>
+    <Stack.Screen
+      name={"SettingsScreen"}
+      component={SettingsScreen}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name={"MatchScreen"}
+      component={MatchScreen}
+      options={{ headerShown: false }}
+    />
+  </Stack.Navigator>
 );
 
 const styles = StyleSheet.create({

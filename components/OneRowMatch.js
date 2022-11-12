@@ -24,8 +24,7 @@ export default function OneRowMatch(props) {
               (props.club1id == "en" || props.club1id == "wl") ? (
                 <View style={styles.shadow}>
                   <Image
-                    source={
-                      props.club1id == "en"
+                    source={ props.club1id == "en"
                         ? require("../assets/england.png")
                         : require("../assets/wales.png")
                     }

@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 60,
     color: "#FFFFFF",
-    height: 52,
+    height: 54,
     lineHeight: 64,
     marginRight: 16,
   },
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     letterSpacing: 0.17,
     color: "#121212",
-    width: 104,
+    width: 112,
     marginRight: 20,
   },
   textType: {
@@ -236,6 +236,7 @@ const styles = StyleSheet.create({
   },
   snackbar: {
     backgroundColor: "#0D4A85",
+    bottom: 4,
   },
 });
 

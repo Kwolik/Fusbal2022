@@ -22,8 +22,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.fusbal2022.app",
       "googleServicesFile": "./ios.plist",
-      "config":{
-        "googleSignIn":{
+      "config": {
+        "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.594410513964-jh33b0j7u95rctu9cm0nfrsi6asad1uo"
         }
       }
@@ -38,6 +38,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": ""
   }
 }

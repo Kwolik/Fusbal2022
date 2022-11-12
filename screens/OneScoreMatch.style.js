@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 8,
+    marginTop: 4,
   },
   date: {
     fontFamily: "Work-Sans",

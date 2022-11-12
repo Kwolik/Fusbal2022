@@ -70,7 +70,7 @@ export default function OneScoreMatch(props) {
                   }
                   style={{
                     width: 32,
-                    height: 22,
+                    height: 24,
                   }}
                 />
               </View>

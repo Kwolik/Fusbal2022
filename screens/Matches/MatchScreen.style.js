@@ -145,7 +145,7 @@ export const styles2 = StyleSheet.create({
   popup: {
     backgroundColor: "#FFFFFF",
     width: 280,
-    height: 246,
+    height: 256,
     borderRadius: 4,
   },
   desc: {
@@ -158,14 +158,32 @@ export const styles2 = StyleSheet.create({
     marginLeft: 24,
     marginTop: 16,
   },
+  desc2: {
+    fontFamily: "Work-Sans",
+    fontStyle: "normal",
+    fontWeight: "500",
+    fontSize: 12,
+    letterSpacing: 0.15,
+    color: "rgba(0, 0, 0, 0.87)",
+    marginTop: 2,
+    textAlign: "center",
+  },
   meetInfo: {
     flexDirection: "row",
     justifyContent: "space-between",
-    margin: 20,
+    margin: 16,
   },
   countryFlag: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  teamone: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  icon: {
+    position: "absolute",
+    right: -8,
   },
   viewCountry: {
     height: 42,
