@@ -5,6 +5,7 @@ import { firestore } from "../../components/firebase";
 import CountryFlag from "react-native-country-flag";
 import { Avatar } from "react-native-paper";
 import FragmentLoadingRow from "../../components/fragmentLoadingRow";
+import { TeamList } from "../../components/TeamList";
 
 export default function RowKing() {
   const [king, setKing] = useState([]);
@@ -29,13 +30,13 @@ export default function RowKing() {
     return updateMachtes;
   }, []);
 
-  king.map((item) => team.indexOf(item.team) == -1 && team.push(item));
+  king.map((item) => team.indexOf(item.team) == -1 && team.push(item.team));
 
   return team && team[0] ? (
     team.map((item, index) => (
       <View style={styles.container} key={index}>
         <View style={styles.country}>
-          {item.code == "en" || item.code == "wl" ? (
+          {item == "Anglia" ? (
             <View style={styles.shadow}>
               <Image
                 source={
@@ -48,15 +49,20 @@ export default function RowKing() {
             </View>
           ) : (
             <View style={styles.shadow}>
-              <CountryFlag isoCode={item.code} size={20} />
+              {TeamList.map(
+                (team, index) =>
+                  item == team.value && (
+                    <CountryFlag isoCode={team.code} size={20} key={index} />
+                  )
+              )}
             </View>
           )}
-          <Text style={styles.nameCountry}>{item.team}</Text>
+          <Text style={styles.nameCountry}>{item}</Text>
         </View>
         <View style={styles.players}>
           {king.map(
             (name, index) =>
-              item.team == name.team &&
+              item == name.team &&
               (name.photo ? (
                 <Image
                   key={index}

@@ -30,7 +30,6 @@
     },
     "android": {
       "package": "com.Fusbal2022.app",
-      "googleServicesFile": "./android.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

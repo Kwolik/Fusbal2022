@@ -75,10 +75,7 @@ export default function SettingsScreen({ navigation }) {
             if (doc.exists) {
               doc.data().name && setNameUser(doc.data().name);
               doc.data().nick && setNick(doc.data().nick);
-              setTimeout(
-                () => doc.data().photo && setPhoto(doc.data().photo),
-                1000
-              );
+              doc.data().photo && setPhoto(doc.data().photo);
               doc.data().points && setPoints(doc.data().points);
               setTimeout(() => setVal(true), 200);
             } else {

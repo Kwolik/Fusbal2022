@@ -38,7 +38,9 @@ export default function HomeScreen({ navigation }) {
       "id",
       "<",
       "" + month == 12
-        ? day.replace(day.substring(0, 2), 30 + new Date().getDate())
+        ? day
+            .toString()
+            .replace(day.toString().substring(0, 2), 30 + new Date().getDate())
         : day + "" + month + "" + year + "0000"
     )
     .orderBy("id")
@@ -50,7 +52,9 @@ export default function HomeScreen({ navigation }) {
       "id",
       ">",
       "" + month == 12
-        ? day.replace(day.substring(0, 2), 30 + new Date().getDate())
+        ? day
+            .toString()
+            .replace(day.toString().substring(0, 2), 30 + new Date().getDate())
         : day + "" + month + "" + year + "0000"
     )
     .orderBy("id")
@@ -187,7 +191,7 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.ranked}>
           <View style={styles.numberTwo}>
             <Text style={styles.number}>2</Text>
-            {users[1].photo ? (
+            {users[1] && users[1].photo ? (
               <Image
                 style={styles.avatar2}
                 source={{
@@ -198,9 +202,15 @@ export default function HomeScreen({ navigation }) {
               <Avatar.Text size={64} label={"K"} />
             )}
             <Text style={styles.name}>
-              {users[1].nick ? users[1].nick : users[1].name}
+              {users[1] && users[1].nick
+                ? users[1].nick
+                : users[1]
+                ? users[1].name
+                : ""}
             </Text>
-            <Text style={styles.punctation}>{users[1].points} pkt</Text>
+            <Text style={styles.punctation}>
+              {users[1] && users[1].points ? users[1].points : 0} pkt
+            </Text>
           </View>
           <View style={styles.numberOne}>
             <Text style={styles.number}>1</Text>
@@ -208,7 +218,7 @@ export default function HomeScreen({ navigation }) {
               style={styles.crown}
               source={require("../../assets/crown.png")}
             />
-            {users[2].photo ? (
+            {users[2] && users[2].photo ? (
               <Image
                 style={styles.avatar}
                 source={{
@@ -219,9 +229,15 @@ export default function HomeScreen({ navigation }) {
               <Avatar.Text size={88} label={"K"} />
             )}
             <Text style={styles.name}>
-              {users[2].nick ? users[2].nick : users[2].name}
+              {users[2] && users[2].nick
+                ? users[2].nick
+                : users[2]
+                ? users[2].name
+                : ""}
             </Text>
-            <Text style={styles.punctation}>{users[2].points} pkt</Text>
+            <Text style={styles.punctation}>
+              {users[2] && users[2].points ? users[2].points : 0} pkt
+            </Text>
           </View>
           <View style={styles.numberThree}>
             <Text style={styles.number}>3</Text>

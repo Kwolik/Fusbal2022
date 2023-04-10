@@ -41,7 +41,7 @@ export default function MatchScreen({ route }) {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          setTimeout(() => setMatch(doc.data()), 1500);
+          setMatch(doc.data());
         } else {
           setTextSnackbar("Nie znaleziono dokumentu"), setVisibleSnackbar(true);
         }

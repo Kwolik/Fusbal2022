@@ -30,7 +30,7 @@ export default function AllMatches({ navigation }) {
     });
 
     return updateMachtes;
-  }, []);
+  }, [matches]);
 
   return (
     <View style={styles.container}>
