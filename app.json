@@ -21,12 +21,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.fusbal2022.app",
-      "googleServicesFile": "./ios.plist",
-      "config": {
-        "googleSignIn": {
-          "reservedClientId": "com.googleusercontent.apps.594410513964-jh33b0j7u95rctu9cm0nfrsi6asad1uo"
-        }
-      }
+      "googleServicesFile": "./ios.plist"
     },
     "android": {
       "package": "com.Fusbal2022.app",
