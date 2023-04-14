@@ -37,7 +37,9 @@ export default function HomeScreen({ navigation }) {
     .where(
       "id",
       "<",
-      "" + month == 12
+      ("" + month == 12) && "id",
+      "<",
+      "" + year == 2023
         ? day
             .toString()
             .replace(day.toString().substring(0, 2), 30 + new Date().getDate())
@@ -51,7 +53,9 @@ export default function HomeScreen({ navigation }) {
     .where(
       "id",
       ">",
-      "" + month == 12
+      "" + month == 12 && "id",
+      "<",
+      "" + year == 2023
         ? day
             .toString()
             .replace(day.toString().substring(0, 2), 30 + new Date().getDate())
